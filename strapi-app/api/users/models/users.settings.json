@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "users",
+  "info": {
+    "name": "lineUser",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "lineUserId": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "categories": {
+      "via": "users",
+      "collection": "category"
+    }
+  }
+}

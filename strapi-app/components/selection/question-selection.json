@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_selection_question_selections",
+  "info": {
+    "name": "Question-Selection",
+    "icon": "check-circle",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Statement": {
+      "type": "string",
+      "unique": false,
+      "required": false
+    },
+    "Correct": {
+      "type": "boolean"
+    },
+    "Order": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_selection_selections",
+  "info": {
+    "name": "Selection",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "Statement": {
+      "type": "string"
+    },
+    "Correct": {
+      "type": "boolean"
+    },
+    "Order": {
+      "type": "integer"
+    }
+  }
+}

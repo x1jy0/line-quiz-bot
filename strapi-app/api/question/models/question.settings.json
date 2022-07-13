@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "questions",
+  "info": {
+    "name": "Question",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "selection": {
+      "type": "component",
+      "repeatable": true,
+      "component": "selection.selection",
+      "required": true
+    },
+    "Format": {
+      "type": "enumeration",
+      "enum": [
+        "single",
+        "multi",
+        "sort"
+      ],
+      "required": true
+    },
+    "categories": {
+      "collection": "category",
+      "via": "questions",
+      "dominant": true
+    },
+    "CorrectComment": {
+      "type": "string",
+      "required": true
+    },
+    "IncorrectComment": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

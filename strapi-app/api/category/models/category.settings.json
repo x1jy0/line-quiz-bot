@@ -22,10 +22,6 @@
       "collection": "users",
       "dominant": true
     },
-    "tests": {
-      "via": "categories",
-      "collection": "test"
-    },
     "questions": {
       "via": "categories",
       "collection": "question"

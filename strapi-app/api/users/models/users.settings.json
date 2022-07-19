@@ -20,6 +20,10 @@
     "categories": {
       "via": "users",
       "collection": "category"
+    },
+    "answers": {
+      "via": "line_users",
+      "collection": "answer"
     }
   }
 }

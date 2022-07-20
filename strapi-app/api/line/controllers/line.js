@@ -1,14 +1,19 @@
-'use strict';
+"use strict";
 
-/**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
- * to customize this controller
- */
+const line = require("../services/line");
 
 module.exports = {
   async webhook(ctx) {
-    //if(Follow) true:servicesのfollowEventを呼び出し
-    console.log(ctx.request.body);
+    //ctxのobjectの配列のobjectのuserId
+    let obj = ctx.request.body;
+    let events = obj["events"][0];
+    //let userId = events.source.userId;
+    let type = events.type;
+
+    if (type == "follow") {
+      //フォローされた時
+      line.followEvent(events);
+    }
     ctx.send();
-  }
+  },
 };

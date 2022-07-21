@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/line/webhook",
+      "handler": "line.webhook",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

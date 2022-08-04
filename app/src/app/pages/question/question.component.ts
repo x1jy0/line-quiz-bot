@@ -1,5 +1,5 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
 import liff from '@line/liff';
 import { environment } from 'src/environments/environment';
 
@@ -39,6 +39,10 @@ export class QuestionComponent implements OnInit {
       { name: 'トマト', completed: false },
     ],
   };
+
+  //並び替え問題の内容
+  movies = ['1111111111', '2222222222', '3333333333', '4444444444'];
+
   constructor() {
     /*
     liff.init({
@@ -48,8 +52,13 @@ export class QuestionComponent implements OnInit {
 
     //問題出題形式の指定
     this.single = false;
-    this.multi = true;
-    this.sort = false;
+    this.multi = false;
+    this.sort = true;
+  }
+
+  //並び替え問題
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
 
   ngOnInit(): void {}

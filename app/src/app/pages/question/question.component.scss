@@ -1,0 +1,56 @@
+@use "src/styles/style";
+
+.container {
+  @include style.container;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.question {
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+}
+
+//単一選択の設定
+.selection-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 50px 80px;
+}
+.mat-radio-group .mat-radio-button .mat-radio-label {
+  white-space: normal;
+}
+
+.radio-button {
+  margin: 10px;
+}
+
+//複数選択の設定
+.multi-choice {
+  padding: 50px 80px;
+  align-items: flex-start;
+
+  ul {
+    list-style: none;
+    padding: 10px;
+    li {
+      padding-top: 15px;
+    }
+  }
+}
+
+.button-container {
+  height: 80px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 50px;
+}

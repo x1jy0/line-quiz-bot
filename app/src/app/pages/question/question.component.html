@@ -1,2 +1,43 @@
-<p>question works!</p>
-<button mat-raised-button color="primary">Primary</button>
+<div class="container">
+  <div class="question" *ngIf="single">
+    西條が使っている学校用PCのメーカーはどこでしょう
+  </div>
+  <div class="question" *ngIf="sort">朝のルーティーンを並び替えで</div>
+  <div class="question" *ngIf="multi">
+    西條が苦手な野菜はなんでしょう<br />
+    2つ選んでください
+  </div>
+
+  <!--単一選択-->
+  <div *ngIf="single">
+    <mat-radio-group
+      aria-labelledby="radio-button-label"
+      class="selection-group"
+      [(ngModel)]="favoriteSeason"
+    >
+      <mat-radio-button
+        class="radio-button"
+        *ngFor="let season of seasons"
+        [value]="season"
+      >
+        {{ season }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <!--複数選択-->
+  <div *ngIf="multi" class="multi-choice">
+    <ul>
+      <li *ngFor="let subtask of task.subtasks">
+        <mat-checkbox [(ngModel)]="subtask.completed">
+          {{ subtask.name }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </div>
+
+  <div class="button-container">
+    <button mat-raised-button color="primary">Primary</button>
+    <button mat-raised-button color="primary">Primary</button>
+  </div>
+</div>

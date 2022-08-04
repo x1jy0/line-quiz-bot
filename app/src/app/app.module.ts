@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { QuestionComponent } from './pages/question/question.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, QuestionComponent],
@@ -14,6 +17,9 @@ import { MaterialModule } from './material/material.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

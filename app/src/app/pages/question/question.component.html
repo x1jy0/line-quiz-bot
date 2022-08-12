@@ -1,17 +1,23 @@
 <div class="container">
-  <dev [ngSwitch]="questionType">
-    <div class="question" *ngSwitchCase="'single'">
-      西條が使っている学校用PCのメーカーはどこでしょう
-    </div>
-
-    <div class="question" *ngSwitchCase="'multi'">
-      西條が苦手な野菜はなんでしょう<br />
-      2つ選んでください
-    </div>
-    <div class="question" *ngSwitchCase="'sort'">1-4を並び替えで</div>
-
-    <!--単一選択-->
+  <!--問題出題形式の分岐と表示-->
+  <ng-container [ngSwitch]="questionType">
     <div *ngSwitchCase="'single'">
+      <ng-container *ngTemplateOutlet="single"></ng-container>
+    </div>
+
+    <div *ngSwitchCase="'multi'">
+      <ng-container *ngTemplateOutlet="multi"></ng-container>
+    </div>
+
+    <div *ngSwitchCase="'sort'">
+      <ng-container *ngTemplateOutlet="sort"></ng-container>
+    </div>
+  </ng-container>
+
+  <!--単一選択-->
+  <ng-template #single>
+    <div class="question">西條が使っている学校用PCのメーカーはどこでしょう</div>
+    <div>
       <mat-radio-group
         aria-labelledby="radio-button-label"
         class="selection-group"
@@ -26,9 +32,15 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
+  </ng-template>
 
-    <!--複数選択-->
-    <div *ngSwitchCase="'multi'" class="multi-choice">
+  <!--複数選択-->
+  <ng-template #multi>
+    <div class="question">
+      西條が苦手な野菜はなんでしょう<br />
+      2つ選んでください
+    </div>
+    <div class="multi-choice">
       <ul>
         <li *ngFor="let subtask of task.subtasks">
           <mat-checkbox [(ngModel)]="subtask.completed">
@@ -37,17 +49,21 @@
         </li>
       </ul>
     </div>
+  </ng-template>
 
-    <!--並び替え-->
-    <div *ngSwitchCase="'sort'" class="sort-choice">
+  <!--並び替え-->
+  <ng-template #sort>
+    <div class="question">1-4を並び替えで</div>
+    <div class="sort-choice">
       <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
         <div class="sort-box" *ngFor="let movie of movies" cdkDrag>
           {{ movie }}
         </div>
       </div>
     </div>
-  </dev>
+  </ng-template>
 
+  <!--下部ボタン-->
   <div class="button-container">
     <button mat-raised-button color="primary">閉じる</button>
     <button mat-raised-button color="primary">次の問題</button>

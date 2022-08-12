@@ -1,49 +1,52 @@
 <div class="container">
-  <div class="question" *ngIf="single">
-    西條が使っている学校用PCのメーカーはどこでしょう
-  </div>
-  <div class="question" *ngIf="multi">
-    西條が苦手な野菜はなんでしょう<br />
-    2つ選んでください
-  </div>
-  <div class="question" *ngIf="sort">1-4を並び替えで</div>
+  <dev [ngSwitch]="questionType">
+    <div class="question" *ngSwitchCase="'single'">
+      西條が使っている学校用PCのメーカーはどこでしょう
+    </div>
 
-  <!--単一選択-->
-  <div *ngIf="single">
-    <mat-radio-group
-      aria-labelledby="radio-button-label"
-      class="selection-group"
-      [(ngModel)]="favoriteSeason"
-    >
-      <mat-radio-button
-        class="radio-button"
-        *ngFor="let season of seasons"
-        [value]="season"
+    <div class="question" *ngSwitchCase="'multi'">
+      西條が苦手な野菜はなんでしょう<br />
+      2つ選んでください
+    </div>
+    <div class="question" *ngSwitchCase="'sort'">1-4を並び替えで</div>
+
+    <!--単一選択-->
+    <div *ngSwitchCase="'single'">
+      <mat-radio-group
+        aria-labelledby="radio-button-label"
+        class="selection-group"
+        [(ngModel)]="favoriteSeason"
       >
-        {{ season }}
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
+        <mat-radio-button
+          class="radio-button"
+          *ngFor="let season of seasons"
+          [value]="season"
+        >
+          {{ season }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
 
-  <!--複数選択-->
-  <div *ngIf="multi" class="multi-choice">
-    <ul>
-      <li *ngFor="let subtask of task.subtasks">
-        <mat-checkbox [(ngModel)]="subtask.completed">
-          {{ subtask.name }}
-        </mat-checkbox>
-      </li>
-    </ul>
-  </div>
+    <!--複数選択-->
+    <div *ngSwitchCase="'multi'" class="multi-choice">
+      <ul>
+        <li *ngFor="let subtask of task.subtasks">
+          <mat-checkbox [(ngModel)]="subtask.completed">
+            {{ subtask.name }}
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
 
-  <!--並び替え-->
-  <div *ngIf="sort" class="sort-choice">
-    <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
-      <div class="sort-box" *ngFor="let movie of movies" cdkDrag>
-        {{ movie }}
+    <!--並び替え-->
+    <div *ngSwitchCase="'sort'" class="sort-choice">
+      <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
+        <div class="sort-box" *ngFor="let movie of movies" cdkDrag>
+          {{ movie }}
+        </div>
       </div>
     </div>
-  </div>
+  </dev>
 
   <div class="button-container">
     <button mat-raised-button color="primary">閉じる</button>

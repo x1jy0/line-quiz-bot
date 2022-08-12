@@ -15,9 +15,7 @@ export interface Task {
   styleUrls: ['./question.component.scss'],
 })
 export class QuestionComponent implements OnInit {
-  single: boolean;
-  multi: boolean;
-  sort: boolean;
+  questionType: string;
 
   //単一選択のradio-button
   favoriteSeason: string | undefined;
@@ -51,9 +49,7 @@ export class QuestionComponent implements OnInit {
     */
 
     //問題出題形式の指定
-    this.single = false;
-    this.multi = false;
-    this.sort = true;
+    this.questionType = 'single';
   }
 
   //並び替え問題

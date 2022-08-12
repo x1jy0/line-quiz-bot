@@ -36,7 +36,7 @@
 //複数選択の設定
 .multi-choice {
   padding: 30px 80px;
-  padding-top: 0;
+  padding-top: 50px;
   align-items: flex-start;
 
   ul {
@@ -101,6 +101,7 @@
 .sort-choice {
   display: flex;
   justify-content: center;
+  padding-top: 60px;
 }
 
 //下部ボタン

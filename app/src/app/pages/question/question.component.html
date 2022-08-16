@@ -25,10 +25,10 @@
       >
         <mat-radio-button
           class="radio-button"
-          *ngFor="let season of seasons"
-          [value]="season"
+          *ngFor="let singleChoice of singleChoices"
+          [value]="singleChoice"
         >
-          {{ season }}
+          {{ singleChoice }}
         </mat-radio-button>
       </mat-radio-group>
     </div>
@@ -42,9 +42,9 @@
     </div>
     <div class="multi-choice">
       <ul>
-        <li *ngFor="let subtask of task.subtasks">
-          <mat-checkbox [(ngModel)]="subtask.completed">
-            {{ subtask.name }}
+        <li *ngFor="let &quot;multi-choice&quot; of multiChoice.choiceList">
+          <mat-checkbox [(ngModel)]="multiChoice.completed">
+            {{ multiChoice.name }}
           </mat-checkbox>
         </li>
       </ul>
@@ -56,8 +56,8 @@
     <div class="question">1-4を並び替えで</div>
     <div class="sort-choice">
       <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
-        <div class="sort-box" *ngFor="let movie of movies" cdkDrag>
-          {{ movie }}
+        <div class="sort-box" *ngFor="let sort of sorts" cdkDrag>
+          {{ sort }}
         </div>
       </div>
     </div>
@@ -66,6 +66,6 @@
   <!--下部ボタン-->
   <div class="button-container">
     <button mat-raised-button color="primary">閉じる</button>
-    <button mat-raised-button color="primary">次の問題</button>
+    <button mat-raised-button color="primary">回答する</button>
   </div>
 </div>

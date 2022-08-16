@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import liff from '@line/liff';
 import { environment } from 'src/environments/environment';
 
-export interface Task {
+export interface multiChoice {
   name: string;
   completed: boolean;
-  subtasks?: Task[];
+  choiceList?: multiChoice[];
 }
 
 @Component({
@@ -19,7 +19,7 @@ export class QuestionComponent implements OnInit {
 
   //単一選択のradio-button
   favoriteSeason: string | undefined;
-  seasons: string[] = [
+  singleChoices: string[] = [
     'MSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSI',
     'DELL',
     'Apple',
@@ -27,10 +27,10 @@ export class QuestionComponent implements OnInit {
   ];
 
   //複数選択のmat-checkbox
-  task: Task = {
-    name: 'Indeterminate',
+  multiChoice: multiChoice = {
+    name: 'multiChoice',
     completed: false,
-    subtasks: [
+    choiceList: [
       { name: 'ゴーヤ', completed: false },
       { name: 'なす', completed: false },
       { name: 'いちご', completed: false },
@@ -39,7 +39,7 @@ export class QuestionComponent implements OnInit {
   };
 
   //並び替え問題の内容
-  movies = ['1111111111', '2222222222', '3333333333', '4444444444'];
+  sorts = ['1111111111', '2222222222', '3333333333', '4444444444'];
 
   constructor() {
     /*
@@ -54,7 +54,7 @@ export class QuestionComponent implements OnInit {
 
   //並び替え問題
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.sorts, event.previousIndex, event.currentIndex);
   }
 
   ngOnInit(): void {}

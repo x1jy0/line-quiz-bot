@@ -18,7 +18,7 @@ export class AnswerComponent implements OnInit {
   result: boolean;
 
   //単一選択のradio-button
-  favoriteSeason: string | undefined;
+
   singleChoices: string[] = [
     'MSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSI',
     'DELL',

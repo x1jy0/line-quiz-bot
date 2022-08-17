@@ -9,12 +9,14 @@ import { QuestionComponent } from './pages/question/question.component';
 import { MaterialModule } from './material/material.module';
 import { AnswerComponent } from './pages/answer/answer.component';
 import { SettingComponent } from './pages/setting/setting.component';
+import { RecordComponent } from './pages/record/record.component';
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
     AnswerComponent,
     SettingComponent,
+    RecordComponent,
   ],
   imports: [
     AppRoutingModule,

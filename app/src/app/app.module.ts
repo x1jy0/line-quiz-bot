@@ -10,7 +10,7 @@ import { MaterialModule } from './material/material.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
-import { AnswerComponent } from './pages/answer/answer/answer.component';
+import { AnswerComponent } from './pages/answer/answer.component';
 
 @NgModule({
   declarations: [AppComponent, QuestionComponent, AnswerComponent],

@@ -14,6 +14,8 @@ export interface Task {
 })
 export class AnswerComponent implements OnInit {
   questionType: string;
+  //正誤を一旦boolで指定する
+  result: boolean;
 
   //単一選択のradio-button
   favoriteSeason: string | undefined;
@@ -41,6 +43,7 @@ export class AnswerComponent implements OnInit {
   constructor() {
     //問題出題形式の指定
     this.questionType = 'single';
+    this.result = true;
   }
 
   //並び替え問題

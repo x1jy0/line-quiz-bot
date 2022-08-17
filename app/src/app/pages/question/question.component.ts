@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import liff from '@line/liff';
 import { environment } from 'src/environments/environment';
 
-export interface multiChoice {
+export interface multiChoiceList {
   name: string;
   completed: boolean;
-  choiceList?: multiChoice[];
+  lists?: multiChoiceList[];
 }
 
 @Component({
@@ -27,10 +27,10 @@ export class QuestionComponent implements OnInit {
   ];
 
   //複数選択のmat-checkbox
-  multiChoice: multiChoice = {
-    name: 'multiChoice',
+  multiChoice: multiChoiceList = {
+    name: 'Indeterminate',
     completed: false,
-    choiceList: [
+    lists: [
       { name: 'ゴーヤ', completed: false },
       { name: 'なす', completed: false },
       { name: 'いちご', completed: false },

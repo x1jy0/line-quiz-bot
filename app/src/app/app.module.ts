@@ -11,9 +11,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { AnswerComponent } from './pages/answer/answer.component';
+import { SettingComponent } from './pages/setting/setting.component';
 
 @NgModule({
-  declarations: [AppComponent, QuestionComponent, AnswerComponent],
+  declarations: [AppComponent, QuestionComponent, AnswerComponent, SettingComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

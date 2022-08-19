@@ -9,7 +9,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { QuestionComponent } from './pages/question/question.component';
-import { MaterialModule } from './material/material.module';
 import { AnswerComponent } from './pages/answer/answer.component';
 import { SettingComponent } from './pages/setting/setting.component';
 import { RecordComponent } from './pages/record/record.component';

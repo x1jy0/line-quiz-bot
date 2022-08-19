@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "answers",
+  "info": {
+    "name": " answer"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "line_users": {
+      "collection": "users",
+      "via": "answers",
+      "dominant": true
+    },
+    "questions": {
+      "collection": "question",
+      "via": "answers",
+      "dominant": true
+    },
+    "correct": {
+      "type": "boolean"
+    }
+  }
+}

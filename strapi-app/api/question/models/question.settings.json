@@ -44,6 +44,10 @@
     "IncorrectComment": {
       "type": "string",
       "required": true
+    },
+    "answers": {
+      "via": "questions",
+      "collection": "answer"
     }
   }
 }

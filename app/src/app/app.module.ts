@@ -1,28 +1,25 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 
+import { MaterialModule } from './material/material.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './pages/question/question.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { FormsModule } from '@angular/forms';
-import { AnswerComponent } from './pages/answer/answer.component';
 
 @NgModule({
-  declarations: [AppComponent, QuestionComponent, AnswerComponent],
+  declarations: [AppComponent, QuestionComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    MatCheckboxModule,
+    CommonModule,
     FormsModule,
-    MatRadioModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     DragDropModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

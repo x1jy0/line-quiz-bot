@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 
+import { MaterialModule } from './material/material.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,9 +15,11 @@ import { QuestionComponent } from './pages/question/question.component';
   imports: [
     AppRoutingModule,
     CommonModule,
-    MatRadioModule,
     FormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     DragDropModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

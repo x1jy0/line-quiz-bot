@@ -1,18 +1,27 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
+import { MaterialModule } from './material/material.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { QuestionComponent } from './pages/question/question.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent, QuestionComponent],
   imports: [
+    AppRoutingModule,
+    CommonModule,
+    FormsModule,
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    DragDropModule,
+    MaterialModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

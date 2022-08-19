@@ -1,0 +1,71 @@
+<div class="container">
+  <!--問題出題形式の分岐と表示-->
+  <ng-container [ngSwitch]="questionType">
+    <div *ngSwitchCase="'single'">
+      <ng-container *ngTemplateOutlet="single"></ng-container>
+    </div>
+
+    <div *ngSwitchCase="'multi'">
+      <ng-container *ngTemplateOutlet="multi"></ng-container>
+    </div>
+
+    <div *ngSwitchCase="'sort'">
+      <ng-container *ngTemplateOutlet="sort"></ng-container>
+    </div>
+  </ng-container>
+
+  <!--単一選択-->
+  <ng-template #single>
+    <div class="question">西條が使っている学校用PCのメーカーはどこでしょう</div>
+    <div>
+      <mat-radio-group
+        aria-labelledby="radio-button-label"
+        class="selection-group"
+        [(ngModel)]="favoriteSeason"
+      >
+        <mat-radio-button
+          class="radio-button"
+          *ngFor="let singleChoice of singleChoices"
+          [value]="singleChoice"
+        >
+          {{ singleChoice }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </ng-template>
+
+  <!--複数選択-->
+  <ng-template #multi>
+    <div class="question">
+      西條が苦手な野菜はなんでしょう<br />
+      2つ選んでください
+    </div>
+    <div class="multi-choice">
+      <ul>
+        <li *ngFor="let multiList of multiChoice.lists">
+          <mat-checkbox [(ngModel)]="multiList.completed">
+            {{ multiList.name }}
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+
+  <!--並び替え-->
+  <ng-template #sort>
+    <div class="question">1-4を並び替えで</div>
+    <div class="sort-choice">
+      <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
+        <div class="sort-box" *ngFor="let sort of sorts" cdkDrag>
+          {{ sort }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--下部ボタン-->
+  <div class="button-container">
+    <button mat-raised-button color="primary">閉じる</button>
+    <button mat-raised-button color="primary">回答する</button>
+  </div>
+</div>

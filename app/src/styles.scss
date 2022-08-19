@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@import "src/styles/color";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $background-color;
+}
+
+//単一選択
+.mat-radio-group .mat-radio-button .mat-radio-label {
+  white-space: normal;
+  .mat-radio-label-content {
+    overflow-wrap: anywhere;
+  }
+}
+
+//複数選択
+.mat-checkbox-layout .mat-checkbox-label {
+  white-space: normal;
+  .mat-radio-label-content {
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+  }
+}

@@ -39,13 +39,9 @@
         aria-labelledby="radio-button-label"
         class="selection-group"
       >
-        <mat-radio-button
-          class="radio-button"
-          *ngFor="let singleChoice of singleChoices"
-          [value]="singleChoice"
-        >
+        <div class="radio-button" *ngFor="let singleChoice of singleChoices">
           {{ singleChoice }}
-        </mat-radio-button>
+        </div>
       </mat-radio-group>
     </div>
   </ng-template>
@@ -55,9 +51,7 @@
     <div class="multi-choice">
       <ul>
         <li *ngFor="let multiList of multiChoice.lists">
-          <mat-checkbox [(ngModel)]="multiList.completed">
-            {{ multiList.name }}
-          </mat-checkbox>
+          {{ multiList.name }}
         </li>
       </ul>
     </div>
@@ -67,7 +61,7 @@
   <ng-template #sort>
     <div class="sort-choice">
       <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
-        <div class="sort-box" *ngFor="let sort of sorts" cdkDrag>
+        <div class="sort-box" *ngFor="let sort of sorts">
           {{ sort }}
         </div>
       </div>

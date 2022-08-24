@@ -1,10 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 
-export interface multiChoice {
+export interface multiChoiceList {
   name: string;
   completed: boolean;
-  choiceList?: multiChoice[];
+  lists?: multiChoiceList[];
 }
 
 @Component({
@@ -27,10 +27,10 @@ export class AnswerComponent implements OnInit {
   ];
 
   //複数選択のmat-checkbox
-  multiChoice: multiChoice = {
-    name: 'multiChoice',
+  multiChoice: multiChoiceList = {
+    name: 'Indeterminate',
     completed: false,
-    choiceList: [
+    lists: [
       { name: 'ゴーヤ', completed: false },
       { name: 'なす', completed: false },
       { name: 'いちご', completed: false },

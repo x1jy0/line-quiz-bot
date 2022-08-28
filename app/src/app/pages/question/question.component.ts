@@ -49,7 +49,7 @@ export class QuestionComponent implements OnInit {
     */
 
     //問題出題形式の指定
-    this.questionType = 'single';
+    this.questionType = 'sort';
   }
 
   //並び替え問題
@@ -58,4 +58,8 @@ export class QuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  onClickMe(): void {
+    console.log(this.sorts);
+  }
 }

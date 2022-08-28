@@ -18,7 +18,7 @@
   </ng-template>
 
   <!--問題出題形式の分岐と表示-->
-  <ng-container [ngSwitch]="questionType">
+  <ng-container [ngSwitch]="question.Format">
     <div *ngSwitchCase="'single'">
       <ng-container *ngTemplateOutlet="single"></ng-container>
     </div>
@@ -39,8 +39,11 @@
         aria-labelledby="radio-button-label"
         class="selection-group"
       >
-        <div class="radio-button" *ngFor="let singleChoice of singleChoices">
-          {{ singleChoice }}
+        <div
+          class="radio-button"
+          *ngFor="let singleChoice of question.selection"
+        >
+          {{ singleChoice.Statement }}
         </div>
       </mat-radio-group>
     </div>
@@ -50,8 +53,8 @@
   <ng-template #multi>
     <div class="multi-choice">
       <ul>
-        <li *ngFor="let multiList of multiChoice.lists">
-          {{ multiList.name }}
+        <li *ngFor="let multiList of question.selection">
+          {{ multiList.Statement }}
         </li>
       </ul>
     </div>
@@ -61,8 +64,15 @@
   <ng-template #sort>
     <div class="sort-choice">
       <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
-        <div class="sort-box" *ngFor="let sort of sorts">
-          {{ sort }}
+        <div
+          class="sort-box"
+          *ngFor="let sort of answer"
+          [ngClass]="{
+            correct: sort.sortCorrect,
+            'in-correct': !sort.sortCorrect
+          }"
+        >
+          {{ sort.Statement }}
         </div>
       </div>
     </div>

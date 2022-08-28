@@ -17,6 +17,60 @@ export class AnswerComponent implements OnInit {
   //正誤を一旦boolで指定する
   result: boolean;
 
+  question = {
+    id: 1,
+    question: '問題文',
+    Format: 'sort',
+    CorrectComment: '正解のコメント',
+    IncorrectComment: '不正解のコメント',
+    published_at: '2022-08-24T09:15:34.155Z',
+    created_at: '2022-08-24T09:15:20.300Z',
+    updated_at: '2022-08-24T09:15:34.279Z',
+    selection: [
+      { id: 1, Statement: '2', Correct: true, Order: 2 },
+      { id: 2, Statement: '1', Correct: false, Order: 1 },
+      { id: 3, Statement: '3', Correct: false, Order: 3 },
+      { id: 4, Statement: '4', Correct: false, Order: 4 },
+    ],
+    categories: [],
+    answers: [],
+  };
+
+  answer = [
+    {
+      id: 4,
+      Statement: '4',
+      Correct: false,
+      Order: 4,
+      selected: false,
+      sortCorrect: false,
+    },
+    {
+      id: 2,
+      Statement: '1',
+      Correct: false,
+      Order: 1,
+      selected: false,
+      sortCorrect: false,
+    },
+    {
+      id: 3,
+      Statement: '3',
+      Correct: false,
+      Order: 3,
+      selected: false,
+      sortCorrect: true,
+    },
+    {
+      id: 1,
+      Statement: '2',
+      Correct: true,
+      Order: 2,
+      selected: true,
+      sortCorrect: false,
+    },
+  ];
+
   //単一選択のradio-button
 
   singleChoices: string[] = [

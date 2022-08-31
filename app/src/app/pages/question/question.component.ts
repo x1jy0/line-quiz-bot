@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import liff from '@line/liff';
 import { environment } from 'src/environments/environment';
+import { MainService } from 'src/app/services/main.service';
 
 export interface multiChoiceList {
   name: string;
@@ -15,47 +16,44 @@ export interface multiChoiceList {
   styleUrls: ['./question.component.scss'],
 })
 export class QuestionComponent implements OnInit {
-  questionType: string;
+  question: any;
 
-  //単一選択のradio-button
-  favoriteSeason: string | undefined;
-  singleChoices: string[] = [
-    'MSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSIMSI',
-    'DELL',
-    'Apple',
-    'Hewlett-Packard',
-  ];
-
-  //複数選択のmat-checkbox
-  multiChoice: multiChoiceList = {
-    name: 'Indeterminate',
-    completed: false,
-    lists: [
-      { name: 'ゴーヤ', completed: false },
-      { name: 'なす', completed: false },
-      { name: 'いちご', completed: false },
-      { name: 'トマト', completed: false },
-    ],
-  };
-
-  //並び替え問題の内容
-  sorts = ['1111111111', '2222222222', '3333333333', '4444444444'];
-
-  constructor() {
+  constructor(private mainSvc: MainService) {
     /*
     liff.init({
       liffId: environment.LIFF_ID,
     });
     */
+  }
 
-    //問題出題形式の指定
-    this.questionType = 'single';
+  ngOnInit(): void {
+    const query = {
+      // categories: 1,
+    };
+    this.mainSvc.getQuestions(query).subscribe((questions) => {
+      const questionLength = questions.length;
+      const index: number = this.getRandomInt(0, questionLength);
+      console.log(questions);
+      console.log(questionLength);
+      console.log(index);
+      console.log(questions[index]);
+      // 取得した問題をquestionに代入
+      this.question = questions[index];
+    });
   }
 
   //並び替え問題
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.sorts, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.question.selection,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
-  ngOnInit(): void {}
+  getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
 }

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   LIFF_ID: '1657253685-4NDGAy8m',
+  API_URL: 'http://localhost:1337',
 };
 
 /*

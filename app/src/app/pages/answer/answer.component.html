@@ -12,9 +12,11 @@
   <!--正誤表示-->
   <ng-template #correct>
     <div class="result" style="color: green">正解</div>
+    <div class="correct-comment">{{ question.CorrectComment }}</div>
   </ng-template>
   <ng-template #inCorrect>
     <div class="result" style="color: red">不正解</div>
+    <div class="in-correct-comment">{{ question.IncorrectComment }}</div>
   </ng-template>
 
   <!--問題出題形式の分岐と表示-->
@@ -33,30 +35,37 @@
   </ng-container>
 
   <!--単一選択-->
-  <ng-template #single>
-    <div>
-      <mat-radio-group
-        aria-labelledby="radio-button-label"
-        class="selection-group"
-      >
+  <ng-template #single , #multi>
+    <div class="check-the-answer">
+      <div style="border-bottom: solid 1px; padding-bottom: 5px">正解：</div>
+      <div class="chk-the-answ-statement">
         <div
-          class="radio-button"
-          *ngFor="let singleChoice of question.selection"
+          *ngFor="let answer of question.selection"
+          [ngClass]="{
+            'in-correct-blind': !answer.Correct
+          }"
+          style="padding-bottom: 1em"
         >
-          {{ singleChoice.Statement }}
+          {{ answer.Statement }}
         </div>
-      </mat-radio-group>
+      </div>
     </div>
-  </ng-template>
 
-  <!--複数選択-->
-  <ng-template #multi>
-    <div class="multi-choice">
-      <ul>
-        <li *ngFor="let multiList of question.selection">
-          {{ multiList.Statement }}
-        </li>
-      </ul>
+    <div class="check-the-answer">
+      <div style="border-bottom: solid 1px; padding-bottom: 5px">
+        あなたの選択：
+      </div>
+      <div class="chk-the-answ-statement">
+        <div
+          *ngFor="let sort of answer"
+          [ngClass]="{
+            'in-correct-blind': !sort.selected
+          }"
+          style="padding-bottom: 1em"
+        >
+          {{ sort.Statement }}
+        </div>
+      </div>
     </div>
   </ng-template>
 
@@ -77,6 +86,7 @@
       </div>
     </div>
   </ng-template>
+
   <!--下部ボタン-->
   <div class="button-container">
     <button mat-raised-button color="primary">閉じる</button>

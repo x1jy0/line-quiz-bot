@@ -13,14 +13,14 @@ export interface multiChoiceList {
   styleUrls: ['./answer.component.scss'],
 })
 export class AnswerComponent implements OnInit {
-  questionType: string;
+  //questionType: string;
   //正誤を一旦boolで指定する
   result: boolean;
 
   question = {
     id: 1,
     question: '問題文',
-    Format: 'sort',
+    Format: 'single',
     CorrectComment: '正解のコメント',
     IncorrectComment: '不正解のコメント',
     published_at: '2022-08-24T09:15:34.155Z',
@@ -40,9 +40,9 @@ export class AnswerComponent implements OnInit {
     {
       id: 4,
       Statement: '4',
-      Correct: false,
+      Correct: false, //ユーザー選択と同じで正解(trueとtrueで正解,fxfは通常表示)
       Order: 4,
-      selected: false,
+      selected: false, //ユーザー選択
       sortCorrect: false,
     },
     {
@@ -96,7 +96,7 @@ export class AnswerComponent implements OnInit {
 
   constructor() {
     //問題出題形式の指定
-    this.questionType = 'single';
+    //this.questionType = 'single';
     this.result = true;
   }
 

@@ -37,7 +37,7 @@
 }
 
 .correct {
-  background-color: green;
+  background-color: #66ff66;
 }
 
 .correct-comment {
@@ -47,7 +47,7 @@
 }
 
 .in-correct {
-  background-color: red;
+  background-color: #ff6666;
 }
 
 .in-correct-comment {
@@ -112,7 +112,6 @@
   justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
-  background: white;
   font-size: 14px;
 }
 

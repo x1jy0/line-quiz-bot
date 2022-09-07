@@ -1,0 +1,159 @@
+@use "src/styles/style";
+
+/*ボタン部分をmixinするのか全体のCSSに入れてしまうのか
+*ボタン自体をインクルード的なことして
+*状態で文字変えた方が良さそう*/
+.container {
+  @include style.container;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.result {
+  font-size: 50px;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  margin-top: 80px;
+}
+
+//正誤判定関係の表示
+.check-the-answer {
+  font-size: larger;
+  width: 50%;
+  margin: auto;
+}
+
+.chk-the-answ-statement {
+  padding-top: 5px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.answer-under-bar {
+  border-bottom: solid 1px;
+  padding-bottom: 5px;
+}
+
+.correct {
+  background-color: #66ff66;
+}
+
+.correct-comment {
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.in-correct {
+  background-color: #ff6666;
+}
+
+.in-correct-comment {
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+}
+.in-correct-blind {
+  display: none;
+}
+
+//単一選択の設定
+.selection-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 50px 80px;
+}
+.mat-radio-group .mat-radio-button .mat-radio-label {
+  white-space: normal;
+}
+
+.radio-button {
+  margin: 10px;
+}
+
+//複数選択の設定
+.multi-choice {
+  padding: 30px 80px;
+  padding-top: 50px;
+  align-items: flex-start;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    li {
+      padding-top: 15px;
+    }
+  }
+}
+
+//並び替えのCSS
+.sort-list {
+  width: 250px;
+  max-width: 70%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sort-box {
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.sort-list.cdk-drop-list-dragging .sort-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.sort-choice {
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+//下部ボタン
+.button-container {
+  height: 80px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 50px;
+}

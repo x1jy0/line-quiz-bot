@@ -10,9 +10,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './pages/question/question.component';
+import { AnswerComponent } from './pages/answer/answer.component';
 
 @NgModule({
-  declarations: [AppComponent, QuestionComponent],
+  declarations: [AppComponent, QuestionComponent, AnswerComponent],
   imports: [
     AppRoutingModule,
     CommonModule,

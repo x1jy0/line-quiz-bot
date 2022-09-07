@@ -51,6 +51,9 @@ export class QuestionComponent implements OnInit {
     );
   }
 
+  onClickMe(): void {
+    console.log(this.question.selection);
+  }
   getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);

@@ -24,14 +24,13 @@
   <!--単一選択-->
   <ng-template #single , #multi>
     <div class="check-the-answer">
-      <div style="border-bottom: solid 1px; padding-bottom: 5px">正解：</div>
+      <div class="answer-under-bar">正解：</div>
       <div class="chk-the-answ-statement">
         <div
           *ngFor="let answer of question.selection"
           [ngClass]="{
             'in-correct-blind': !answer.Correct
           }"
-          style="padding-bottom: 1em"
         >
           {{ answer.Statement }}
         </div>

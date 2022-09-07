@@ -1,23 +1,10 @@
 <div class="container">
-  <!--正誤分岐-->
-  <ng-container [ngSwitch]="result">
-    <div *ngSwitchCase="true">
-      <ng-container *ngTemplateOutlet="correct"></ng-container>
-    </div>
-    <div *ngSwitchCase="false">
-      <ng-container *ngTemplateOutlet="inCorrect"></ng-container>
-    </div>
-  </ng-container>
-
-  <!--正誤表示-->
-  <ng-template #correct>
-    <div class="result" style="color: green">正解</div>
-    <div class="correct-comment">{{ question.CorrectComment }}</div>
-  </ng-template>
-  <ng-template #inCorrect>
-    <div class="result" style="color: red">不正解</div>
-    <div class="in-correct-comment">{{ question.IncorrectComment }}</div>
-  </ng-template>
+  <div class="result" [class.correct]="result" [class.in-correct]="!result">
+    {{ result ? "正解" : "不正解" }}
+  </div>
+  <div [class.correct-comment]="result" [class.in-correct-comment]="!result">
+    {{ result ? question.CorrectComment : question.IncorrectComment }}
+  </div>
 
   <!--問題出題形式の分岐と表示-->
   <ng-container [ngSwitch]="question.Format">

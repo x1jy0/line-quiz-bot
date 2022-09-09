@@ -93,14 +93,14 @@ export class QuestionComponent implements OnInit {
   //種類別に正誤判定を作る（宿題）
   //selectedchoice==Correctとか
   onClickMe(): void {
-    console.log('取得された問題:');
-    console.log(this.question.selection);
-    //console.log(this.selectedChoice);
+    console.log('取得された問題:', this.question.selection);
+    console.log('selectedChoice:', this.selectedChoice);
 
     //問題種類別正誤判定
     let isCorrect;
     switch (this.question.Format) {
       case 'single':
+        //ユーザーの回答:this.selectedChoice
         console.log('Is Single!');
         if (this.selectedChoice == -1) {
           console.log('未回答です');
@@ -125,7 +125,6 @@ export class QuestionComponent implements OnInit {
             this.selectionForm.value.selections[i]
           );
           if (
-            //undefinedで判定ができない
             //不正解があるとCorrectがFalseになる
             this.question.selection[i].Correct !==
             this.selectionForm.value.selections[i]
@@ -134,11 +133,24 @@ export class QuestionComponent implements OnInit {
             break;
           }
         }
-        console.log('正誤:', isCorrect); //一致が表示される
+        console.log('正誤:', isCorrect); //正誤が表示される
         break;
 
       case 'sort':
+        isCorrect = true;
+        //ユーザーの回答:this.question.selection[].Order
         console.log('Is Sort');
+        console.log(this.question.selection);
+        //Orderがi++で並んでいれば正解
+        for (let i = 0; i < this.question.selection.length; i++) {
+          console.log('Orderの中身:', this.question.selection[i].Order);
+          if (i + 1 !== this.question.selection[i].Order) {
+            console.log('isFalse!!!');
+            isCorrect = false;
+            break;
+          }
+        }
+        console.log('正誤:', isCorrect); //正誤が表示される
         break;
 
       default:

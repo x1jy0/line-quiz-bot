@@ -21,11 +21,12 @@
       <mat-radio-group
         aria-labelledby="radio-button-label"
         class="selection-group"
+        [(ngModel)]="selectedChoice"
       >
         <mat-radio-button
           class="radio-button"
-          *ngFor="let singleChoice of question.selection"
-          [value]="singleChoice"
+          *ngFor="let singleChoice of question.selection; index as i"
+          [value]="i"
         >
           {{ singleChoice.Statement }}
         </mat-radio-button>
@@ -38,10 +39,10 @@
     <div class="question">
       {{ question.question }}
     </div>
-    <div class="multi-choice">
-      <ul>
-        <li *ngFor="let multiChoice of question.selection">
-          <mat-checkbox>
+    <div class="multi-choice" [formGroup]="selectionForm">
+      <ul formArrayName="selections">
+        <li *ngFor="let multiChoice of question.selection; index as i">
+          <mat-checkbox [formControlName]="i">
             {{ multiChoice.Statement }}
           </mat-checkbox>
         </li>

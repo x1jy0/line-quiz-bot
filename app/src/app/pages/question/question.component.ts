@@ -4,6 +4,8 @@ import { FormBuilder } from '@angular/forms';
 import liff from '@line/liff';
 import { environment } from 'src/environments/environment';
 import { MainService } from 'src/app/services/main.service';
+import { catchError, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-question',
@@ -11,6 +13,7 @@ import { MainService } from 'src/app/services/main.service';
   styleUrls: ['./question.component.scss'],
 })
 export class QuestionComponent implements OnInit {
+  log = '';
   question: any;
   selectedChoice: number;
   selectionForm: any;
@@ -56,22 +59,33 @@ export class QuestionComponent implements OnInit {
       // categories: 1,
     };
     //問題を取得するService呼び出し
-    this.mainSvc.getQuestions(query).subscribe((questions) => {
-      const questionLength = questions.length;
-      const index: number = this.getRandomInt(0, questionLength);
-      //console.log('問題一覧:',questions);
-      console.log('取得した問題:', questions[index]);
-      // 取得した問題をquestionに代入
-      this.question = questions[index];
-      // 複数選択の時
-      if (questions[index].Format == 'multi') {
-        this.selectionForm = this.fb.group({
-          selections: this.fb.array(
-            questions[index].selection.map((v: any) => false)
-          ),
-        });
-      }
-    });
+    this.mainSvc
+      .getQuestions(query)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.log = JSON.stringify(error);
+          return throwError(
+            () => new Error('Something bad happened; please try again later.')
+          );
+        })
+      )
+      .subscribe((questions) => {
+        const questionLength = questions.length;
+        const index: number = this.getRandomInt(0, questionLength);
+        //console.log('問題一覧:',questions);
+        console.log('取得した問題:', questions[index]);
+        this.log = JSON.stringify(questions);
+        // 取得した問題をquestionに代入
+        this.question = questions[index];
+        // 複数選択の時
+        if (questions[index].Format == 'multi') {
+          this.selectionForm = this.fb.group({
+            selections: this.fb.array(
+              questions[index].selection.map((v: any) => false)
+            ),
+          });
+        }
+      });
   }
 
   //並び替え問題
@@ -102,10 +116,8 @@ export class QuestionComponent implements OnInit {
         }
         //問題の選択肢のユーザー選択がtrueなら正解
         if (this.question.selection[this.selectedChoice].Correct) {
-          console.log('Is True!');
           this.isCorrect = true;
         } else {
-          console.log('Is False!');
           this.isCorrect = false;
         }
         break;
@@ -139,7 +151,6 @@ export class QuestionComponent implements OnInit {
         for (let i = 0; i < this.question.selection.length; i++) {
           console.log('Orderの中身:', this.question.selection[i].Order);
           if (i + 1 !== this.question.selection[i].Order) {
-            console.log('isFalse!!!');
             this.isCorrect = false;
             break;
           }
@@ -169,7 +180,21 @@ export class QuestionComponent implements OnInit {
         console.log('正誤:', this.isCorrect);
         console.log('問題のindex:', this.question.id);
         console.log('userIdのindex:', this.userIdIndex);
-        //保存をサブスク内に入れることで強制同期
+
+        //localStorageへ渡すデータ作成
+        var correctData = {
+          isCorrect: this.isCorrect,
+          userIdIndex: this.userIdIndex,
+          questionIdIndex: this.question.id,
+        };
+        //localStorageへ保存
+        localStorage.setItem('correctData', JSON.stringify(correctData));
+        console.log(
+          '保存されたデータ:',
+          JSON.parse(localStorage.getItem('correctData') ?? '')
+        );
+
+        //保存処理
         this.mainSvc.createAnswer(body).subscribe((res) => {
           console.log('createAnswer:', res);
         });

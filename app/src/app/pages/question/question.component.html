@@ -1,4 +1,5 @@
 <div class="container">
+  <!-- <div>{{ log }}</div> -->
   <!--問題出題形式の分岐と表示-->
   <ng-container [ngSwitch]="question?.Format">
     <div *ngSwitchCase="'single'">
@@ -65,7 +66,12 @@
   <!--下部ボタン-->
   <div class="button-container">
     <button mat-raised-button color="primary">閉じる</button>
-    <button mat-raised-button color="primary" (click)="toAnswerButton()">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="toAnswerButton()"
+      routerLink="/answer"
+    >
       回答する
     </button>
   </div>

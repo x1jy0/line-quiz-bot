@@ -13,8 +13,10 @@ export interface multiChoiceList {
   styleUrls: ['./answer.component.scss'],
 })
 export class AnswerComponent implements OnInit {
+  //localStorageのデータ取り出し
+  correctData = JSON.parse(localStorage.getItem('correctData') ?? '');
   //questionType: string;
-  //正誤を一旦boolで指定する
+  //正誤をboolで宣言する
   result: boolean;
 
   question = {
@@ -95,9 +97,9 @@ export class AnswerComponent implements OnInit {
   sorts = ['1111111111', '2222222222', '3333333333', '4444444444'];
 
   constructor() {
-    //問題出題形式の指定
-    //this.questionType = 'single';
-    this.result = true;
+    // 正誤の読み込み
+    this.result = this.correctData.isCorrect;
+    console.log(this.correctData.isCorrect);
   }
 
   //並び替え問題

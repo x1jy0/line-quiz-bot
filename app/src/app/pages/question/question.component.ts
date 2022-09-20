@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { MainService } from 'src/app/services/main.service';
 import { catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question',
@@ -21,7 +22,11 @@ export class QuestionComponent implements OnInit {
   userIdIndex: any;
   isCorrect = false;
 
-  constructor(private mainSvc: MainService, private fb: FormBuilder) {
+  constructor(
+    private mainSvc: MainService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     liff
       .init({
         liffId: environment.LIFF_ID,
@@ -109,7 +114,7 @@ export class QuestionComponent implements OnInit {
       case 'single':
         //ユーザーの回答:this.selectedChoice
         console.log('Is Single!');
-        console.log(this.selectedChoice);
+        console.log('ユーザーの選択:', this.selectedChoice);
         if (this.selectedChoice == -1) {
           console.log('未回答です');
           break;
@@ -186,7 +191,10 @@ export class QuestionComponent implements OnInit {
           isCorrect: this.isCorrect,
           userIdIndex: this.userIdIndex,
           questionIdIndex: this.question.id,
+          singleChoiceAnswer: this.selectedChoice,
+          multiSortChoiceAnswer: this.question.selection,
         };
+
         //localStorageへ保存
         localStorage.setItem('correctData', JSON.stringify(correctData));
         console.log(
@@ -197,6 +205,8 @@ export class QuestionComponent implements OnInit {
         //保存処理
         this.mainSvc.createAnswer(body).subscribe((res) => {
           console.log('createAnswer:', res);
+          //画面を遷移
+          this.router.navigateByUrl('/answer');
         });
       } else {
         console.log('不正な動作です');

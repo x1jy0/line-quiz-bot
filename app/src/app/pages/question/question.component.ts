@@ -22,6 +22,32 @@ export class QuestionComponent implements OnInit {
   userIdIndex: any;
   isCorrect = false;
   sortCorrect: boolean[] = [];
+  answerData = [
+    {
+      Statement: 'a',
+      Correct: false, //ユーザー選択と同じで正解(trueとtrueで正解,fxfは通常表示)
+      selected: false, //ユーザー選択
+      sortCorrect: false,
+    },
+    {
+      Statement: 'b',
+      Correct: false,
+      selected: false,
+      sortCorrect: false,
+    },
+    {
+      Statement: 'c',
+      Correct: false,
+      selected: false,
+      sortCorrect: false,
+    },
+    {
+      Statement: 'd',
+      Correct: false,
+      selected: false,
+      sortCorrect: false,
+    },
+  ];
 
   constructor(
     private mainSvc: MainService,
@@ -123,8 +149,10 @@ export class QuestionComponent implements OnInit {
         //問題の選択肢のユーザー選択がtrueなら正解
         if (this.question.selection[this.selectedChoice].Correct) {
           this.isCorrect = true;
+          this.answerData[this.selectedChoice].selected = true;
         } else {
           this.isCorrect = false;
+          this.answerData[this.selectedChoice].selected = true;
         }
         break;
 
@@ -158,8 +186,10 @@ export class QuestionComponent implements OnInit {
         for (let i = 0; i < this.question.selection.length; i++) {
           console.log('Orderの中身:', this.question.selection[i].Order);
           this.sortCorrect[i] = true;
+          this.answerData[i].sortCorrect = true;
           if (i + 1 !== this.question.selection[i].Order) {
             this.isCorrect = false;
+            this.answerData[i].sortCorrect = false;
             this.sortCorrect[i] = false;
           }
         }
@@ -203,21 +233,31 @@ export class QuestionComponent implements OnInit {
           singleChoiceAnswer: this.selectedChoice,
           multiChoiceAnswer: multiChoiceAnswer,
         };
-        var sorts = {
-          sortChoiceAnswer: this.question.selection,
-          sortCorrect: this.sortCorrect,
-        };
+
+        // answerで使うデータに変換(answerData)
+        for (let i = 0; i < this.question.selection.length; i++) {
+          this.answerData[i].Statement = this.question.selection[i].Statement;
+          this.answerData[i].Correct = this.question.selection[i].Correct;
+          // // 単一選択の選択したものにtrue
+          // this.answerData[this.selectedChoice].selected = true;
+          if (this.question.Format == 'multi') {
+            this.answerData[i].selected =
+              this.selectionForm.value.selections[i];
+          }
+        }
+
+        console.log('answerdata:', this.answerData);
 
         //localStorageへ保存
         localStorage.setItem('correctData', JSON.stringify(correctData));
-        localStorage.setItem('sortsData', JSON.stringify(sorts));
+        localStorage.setItem('answerData', JSON.stringify(this.answerData));
         console.log(
           '保存されたデータ:',
           JSON.parse(localStorage.getItem('correctData') ?? '')
         );
         console.log(
           '保存されたデータ:',
-          JSON.parse(localStorage.getItem('sortsData') ?? '')
+          JSON.parse(localStorage.getItem('answerData') ?? '')
         );
 
         //保存処理

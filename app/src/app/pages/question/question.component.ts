@@ -228,10 +228,6 @@ export class QuestionComponent implements OnInit {
         var correctData = {
           question: this.question,
           isCorrect: this.isCorrect,
-          userIdIndex: this.userIdIndex,
-          questionIdIndex: this.question.id,
-          singleChoiceAnswer: this.selectedChoice,
-          multiChoiceAnswer: multiChoiceAnswer,
         };
 
         // answerで使うデータに変換(answerData)

@@ -21,6 +21,7 @@ export class QuestionComponent implements OnInit {
   user: any;
   userIdIndex: any;
   isCorrect = false;
+  sortCorrect: boolean[] = [];
 
   constructor(
     private mainSvc: MainService,
@@ -153,11 +154,13 @@ export class QuestionComponent implements OnInit {
         //ユーザーの回答:this.question.selection[].Order
         console.log('Is Sort');
         //Orderがi++で並んでいれば正解
+
         for (let i = 0; i < this.question.selection.length; i++) {
           console.log('Orderの中身:', this.question.selection[i].Order);
+          this.sortCorrect[i] = true;
           if (i + 1 !== this.question.selection[i].Order) {
             this.isCorrect = false;
-            break;
+            this.sortCorrect[i] = false;
           }
         }
         break;
@@ -187,19 +190,34 @@ export class QuestionComponent implements OnInit {
         console.log('userIdのindex:', this.userIdIndex);
 
         //localStorageへ渡すデータ作成
+        var multiChoiceAnswer: any;
+        if (this.question.Format == 'multi') {
+          multiChoiceAnswer = this.selectionForm.value;
+        }
+        console.log(this.question.Format);
         var correctData = {
+          question: this.question,
           isCorrect: this.isCorrect,
           userIdIndex: this.userIdIndex,
           questionIdIndex: this.question.id,
           singleChoiceAnswer: this.selectedChoice,
-          multiSortChoiceAnswer: this.question.selection,
+          multiChoiceAnswer: multiChoiceAnswer,
+        };
+        var sorts = {
+          sortChoiceAnswer: this.question.selection,
+          sortCorrect: this.sortCorrect,
         };
 
         //localStorageへ保存
         localStorage.setItem('correctData', JSON.stringify(correctData));
+        localStorage.setItem('sortsData', JSON.stringify(sorts));
         console.log(
           '保存されたデータ:',
           JSON.parse(localStorage.getItem('correctData') ?? '')
+        );
+        console.log(
+          '保存されたデータ:',
+          JSON.parse(localStorage.getItem('sortsData') ?? '')
         );
 
         //保存処理

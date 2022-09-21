@@ -104,7 +104,6 @@ export class QuestionComponent implements OnInit {
       .subscribe((questions) => {
         const questionLength = questions.length;
         const index: number = this.getRandomInt(0, questionLength);
-        //console.log('問題一覧:',questions);
         console.log('取得した問題:', questions[index]);
         this.log = JSON.stringify(questions);
         // 取得した問題をquestionに代入
@@ -160,12 +159,8 @@ export class QuestionComponent implements OnInit {
         this.isCorrect = true;
         //ユーザーの回答:this.selectionForm.value
         console.log('Is Multi!');
-        console.log(this.selectionForm.value);
+        console.log('ユーザーの選択:', this.selectionForm.value);
         for (let i = 0; i < this.question.selection.length; i++) {
-          console.log(
-            'selectionForm[i]の中身',
-            this.selectionForm.value.selections[i]
-          );
           if (
             //不正解があるとCorrectがFalseになる
             this.question.selection[i].Correct !==
@@ -184,7 +179,6 @@ export class QuestionComponent implements OnInit {
         //Orderがi++で並んでいれば正解
 
         for (let i = 0; i < this.question.selection.length; i++) {
-          console.log('Orderの中身:', this.question.selection[i].Order);
           this.sortCorrect[i] = true;
           this.answerData[i].sortCorrect = true;
           if (i + 1 !== this.question.selection[i].Order) {
@@ -204,7 +198,6 @@ export class QuestionComponent implements OnInit {
     const findUser = { lineUserId: this.user.userId };
     this.mainSvc.findUser(findUser).subscribe((line_users) => {
       this.userIdIndex = line_users[0].id;
-      console.log('lineUsers:', line_users);
       console.log('ユーザーidのindex値:', this.userIdIndex);
       //userIdが正しいものか確認
       if (this.user.userId == line_users[0].lineUserId) {
@@ -214,17 +207,11 @@ export class QuestionComponent implements OnInit {
           questions: this.question.id,
           line_users: this.userIdIndex,
         };
-
-        console.log('正誤:', this.isCorrect);
-        console.log('問題のindex:', this.question.id);
-        console.log('userIdのindex:', this.userIdIndex);
-
         //localStorageへ渡すデータ作成
         var multiChoiceAnswer: any;
         if (this.question.Format == 'multi') {
           multiChoiceAnswer = this.selectionForm.value;
         }
-        console.log(this.question.Format);
         var correctData = {
           question: this.question,
           isCorrect: this.isCorrect,
@@ -242,17 +229,15 @@ export class QuestionComponent implements OnInit {
           }
         }
 
-        console.log('answerdata:', this.answerData);
-
         //localStorageへ保存
         localStorage.setItem('correctData', JSON.stringify(correctData));
         localStorage.setItem('answerData', JSON.stringify(this.answerData));
         console.log(
-          '保存されたデータ:',
+          '保存されたデータ(correctData):',
           JSON.parse(localStorage.getItem('correctData') ?? '')
         );
         console.log(
-          '保存されたデータ:',
+          '保存されたデータ(answerData):',
           JSON.parse(localStorage.getItem('answerData') ?? '')
         );
 

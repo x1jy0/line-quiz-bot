@@ -128,8 +128,6 @@ export class QuestionComponent implements OnInit {
     );
   }
 
-  //clickonme名前を考える===========
-  //selectedchoice==Correctとか
   toAnswerButton(): void {
     //userIdを取得
     console.log('userId:', this.user.userId);

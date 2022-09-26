@@ -43,4 +43,8 @@ export class RecordComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  closeLiff() {
+    liff.closeWindow();
+  }
 }

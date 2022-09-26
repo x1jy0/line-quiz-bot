@@ -1,4 +1,15 @@
 <div class="container">
+  <div class="title">解答率</div>
+  <mat-card class="main-card">
+    <div>全体の解答率</div>
+    <mat-progress-bar
+      class="progress-bar-style"
+      mode="determinate"
+      value="40"
+    ></mat-progress-bar>
+  </mat-card>
+
+  <mat-card class="main-card"> <div>ジャンル別の解答率</div> </mat-card>
   <!--下部ボタン-->
   <div class="button-container">
     <button mat-raised-button color="primary" (click)="closeLiff()">

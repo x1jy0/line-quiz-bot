@@ -6,6 +6,24 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 30px;
+  display: flex;
+  height: 80px;
+  padding: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-card {
+  width: 70%;
+}
+
+.progress-bar-style {
+  padding-top: 2em;
 }
 
 //下部ボタン

@@ -16,7 +16,7 @@ export class RecordComponent implements OnInit {
     // lineLogin処理
     liff
       .init({
-        liffId: environment.SETTING_LIFF_ID,
+        liffId: environment.RECORD_LIFF_ID,
       })
       .then(() => {
         // Start to use liff's api

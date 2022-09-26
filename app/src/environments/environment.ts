@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   QUESTION_LIFF_ID: '1657253685-4NDGAy8m',
   SETTING_LIFF_ID: '1657253685-k99njPyv',
+  RECORD_LIFF_ID: '1657253685-xQA1QgZj',
   API_URL: 'http://localhost:1337',
 };
 

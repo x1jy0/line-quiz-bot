@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="setting">設定</div>
+  <div class="detail">出題して欲しい範囲に<br />チェックを入れてください</div>
+
+  <span class="multi-choice">
+    <ul>
+      <li *ngFor="let setItem of item.items">
+        <mat-checkbox [(ngModel)]="setItem.completed">
+          {{ setItem.name }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </span>
+
+  <!--下部ボタン-->
+  <div class="button-container">
+    <button mat-raised-button color="primary" (click)="closeLiff()">
+      閉じる
+    </button>
+  </div>
+</div>

@@ -8,13 +8,18 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { QuestionComponent } from './pages/question/question.component';
 import { AnswerComponent } from './pages/answer/answer.component';
-
+import { SettingComponent } from './pages/setting/setting.component';
 @NgModule({
-  declarations: [AppComponent, QuestionComponent, AnswerComponent],
+  declarations: [
+    AppComponent,
+    QuestionComponent,
+    AnswerComponent,
+    SettingComponent,
+  ],
   imports: [
     AppRoutingModule,
     CommonModule,

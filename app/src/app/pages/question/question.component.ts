@@ -56,7 +56,7 @@ export class QuestionComponent implements OnInit {
   ) {
     liff
       .init({
-        liffId: environment.LIFF_ID,
+        liffId: environment.QUESTION_LIFF_ID,
       })
       .then(() => {
         // Start to use liff's api

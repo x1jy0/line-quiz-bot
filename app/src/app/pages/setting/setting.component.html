@@ -4,7 +4,7 @@
 
   <span class="multi-choice">
     <ul>
-      <li *ngFor="let setItem of item.items">
+      <li *ngFor="let setItem of listCategories">
         <mat-checkbox [(ngModel)]="setItem.completed">
           {{ setItem.name }}
         </mat-checkbox>

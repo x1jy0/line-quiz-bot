@@ -251,6 +251,10 @@ export class QuestionComponent implements OnInit {
     });
   }
 
+  closeLiff() {
+    liff.closeWindow();
+  }
+
   //問題を表示するためのランダムチョイス
   getRandomInt(min: number, max: number) {
     min = Math.ceil(min);

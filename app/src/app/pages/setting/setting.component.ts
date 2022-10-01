@@ -4,8 +4,7 @@ import { MainService } from 'src/app/services/main.service';
 import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+
 export interface Item {
   name: string;
   completed: boolean;
@@ -18,16 +17,17 @@ export interface Item {
   styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
-  categories: any;
   // 表示用配列
-  listCategories = [
+  categoriesData = [
     { name: '読み込み中...', completed: false },
     { name: '読み込み中...', completed: false },
     { name: '読み込み中...', completed: false },
     { name: '読み込み中...', completed: false },
   ];
   log = '';
+  // line側のuserData
   user: any;
+  // DBのuserData
   userIdIndex: any;
 
   constructor(private mainSvc: MainService) {
@@ -47,12 +47,54 @@ export class SettingComponent implements OnInit {
             //getProfileの戻り値
             .then((profile) => {
               this.user = profile;
-              console.log('UserData:', this.user);
               const findUser = { lineUserId: this.user.userId };
               this.mainSvc.findUser(findUser).subscribe((line_users) => {
                 this.userIdIndex = line_users[0];
-                console.log('userIdIdex:', this.userIdIndex);
               });
+              console.log('userData:', this.user);
+              console.log('userIdIndex:', this.userIdIndex);
+              //カテゴリーの絞り込み(不要なので省略)
+              const query = {};
+              //カテゴリーを取得するService呼び出し
+              this.mainSvc
+                .getCategories(query)
+                .pipe(
+                  catchError((error: HttpErrorResponse) => {
+                    this.log = JSON.stringify(error);
+                    return throwError(
+                      () =>
+                        new Error(
+                          'Something bad happened; please try again later.'
+                        )
+                    );
+                  })
+                )
+                // カテゴリー表示とユーザーの選択を表示
+                .subscribe((categories) => {
+                  console.log('カテゴリー一覧:', categories);
+                  // 表示用配列にnameを代入するループ
+                  for (let i = 0; i < categories.length; i++) {
+                    this.categoriesData[i].name = categories[i].name;
+                  }
+                  console.log(
+                    '選択されているカテゴリー',
+                    this.userIdIndex.categories
+                  );
+                  console.log('表示用配列:', this.categoriesData);
+                  // ユーザー選択を代入するループ
+                  for (let i = 0; i < this.userIdIndex.categories.length; i++) {
+                    // カテゴリー一覧からユーザーが選択してるカテゴリーのindexを取得
+                    const found = categories.findIndex(
+                      (element: { name: string }) => {
+                        return (
+                          element.name == this.userIdIndex.categories[i].name
+                        );
+                      }
+                    );
+                    // ユーザーが選択しているカテゴリーをチェックされた状態にする
+                    this.categoriesData[found].completed = true;
+                  }
+                });
             })
             .catch((err) => {
               console.log('error', err);
@@ -65,49 +107,7 @@ export class SettingComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-    const delay_observable = of('').pipe(delay(5000));
-    delay_observable.subscribe((s) => {
-      console.log('delay!');
-      //カテゴリーの絞り込み(不要なので省略)
-      const query = {};
-      //カテゴリーを取得するService呼び出し
-      this.mainSvc
-        .getCategories(query)
-        .pipe(
-          catchError((error: HttpErrorResponse) => {
-            this.log = JSON.stringify(error);
-            return throwError(
-              () => new Error('Something bad happened; please try again later.')
-            );
-          })
-        )
-        .subscribe((categories) => {
-          console.log('取得した項目:', categories);
-          this.categories = categories;
-          // 表示用配列にnameと選択状況(completed)を代入する
-          for (let i = 0; i < categories.length; i++) {
-            console.log(categories[i].name);
-            this.listCategories[i].name = categories[i].name;
-            // this.listCategories[i].completed = true;
-          }
-          console.log(this.userIdIndex.categories);
-          console.log('表示用配列:', this.listCategories);
-          // const array1 = [{ name: '学校' }, { name: '家' }];
-
-          for (let i = 0; i < this.userIdIndex.categories.length; i++) {
-            const found = categories.findIndex((element: { name: string }) => {
-              // console.log('findの中:', element);
-              // console.log('userIdIndex:', this.userIdIndex.categories[0].name);
-              return element.name == this.userIdIndex.categories[i].name;
-            });
-
-            console.log(i, 'found:', found);
-            this.listCategories[found].completed = true;
-          }
-        });
-    });
-  }
+  ngOnInit(): void {}
 
   closeLiff() {
     liff.closeWindow();

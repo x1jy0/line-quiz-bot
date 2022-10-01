@@ -26,9 +26,10 @@ export class SettingComponent implements OnInit {
   ];
   log = '';
   // line側のuserData
-  user: any;
+  lineUser: any;
   // DBのuserData
   userIdIndex: any;
+  userData: any;
 
   constructor(private mainSvc: MainService) {
     // lineLogin処理
@@ -46,13 +47,15 @@ export class SettingComponent implements OnInit {
             .getProfile()
             //getProfileの戻り値
             .then((profile) => {
-              this.user = profile;
-              const findUser = { lineUserId: this.user.userId };
+              this.lineUser = profile;
+              const findUser = { lineUserId: this.lineUser.userId };
               this.mainSvc.findUser(findUser).subscribe((line_users) => {
-                this.userIdIndex = line_users[0];
+                this.userData = line_users[0];
+                this.userIdIndex = line_users[0].id;
+                console.log('lineUser:', this.lineUser);
+                console.log('userData:', this.userData);
+                console.log('userIdIndex:', this.userIdIndex);
               });
-              console.log('userData:', this.user);
-              console.log('userIdIndex:', this.userIdIndex);
               //カテゴリーの絞り込み(不要なので省略)
               const query = {};
               //カテゴリーを取得するService呼び出し
@@ -78,17 +81,15 @@ export class SettingComponent implements OnInit {
                   }
                   console.log(
                     '選択されているカテゴリー',
-                    this.userIdIndex.categories
+                    this.userData.categories
                   );
                   console.log('表示用配列:', this.categoriesData);
                   // ユーザー選択を代入するループ
-                  for (let i = 0; i < this.userIdIndex.categories.length; i++) {
+                  for (let i = 0; i < this.userData.categories.length; i++) {
                     // カテゴリー一覧からユーザーが選択してるカテゴリーのindexを取得
                     const found = categories.findIndex(
                       (element: { name: string }) => {
-                        return (
-                          element.name == this.userIdIndex.categories[i].name
-                        );
+                        return element.name == this.userData.categories[i].name;
                       }
                     );
                     // ユーザーが選択しているカテゴリーをチェックされた状態にする
@@ -109,7 +110,8 @@ export class SettingComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  closeLiff() {
-    liff.closeWindow();
+  saveAndClose() {
+    console.log(this.categoriesData);
+    // liff.closeWindow();
   }
 }

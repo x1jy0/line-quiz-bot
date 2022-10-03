@@ -112,6 +112,15 @@ export class SettingComponent implements OnInit {
 
   saveAndClose() {
     console.log(this.categoriesData);
+    //bodyの中にデータを入れてあげると保存できる
+    const body = {
+      // id: 99,
+      // name: 'testText',
+    };
+    //保存処理
+    this.mainSvc.saveCategories(body).subscribe((res) => {
+      console.log('saveCategories:', res);
+    });
     // liff.closeWindow();
   }
 }

@@ -20,10 +20,20 @@
 
 .main-card {
   width: 70%;
+  margin-bottom: 5em;
 }
 
 .progress-bar-style {
-  padding-top: 2em;
+  font-size: larger;
+  list-style: none;
+}
+
+.name-and-value {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  padding-top: 10px;
 }
 
 //下部ボタン

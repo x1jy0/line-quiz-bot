@@ -9,7 +9,20 @@
     ></mat-progress-bar>
   </mat-card>
 
-  <mat-card class="main-card"> <div>ジャンル別の解答率</div> </mat-card>
+  <mat-card class="main-card">
+    <div>ジャンル別の解答率</div>
+    <li
+      class="progress-bar-style"
+      *ngFor="let categories of this.categoriesData"
+    >
+      <div class="name-and-value">
+        <p>{{ categories.name }}</p>
+        <p>{{ categories.value }}%</p>
+      </div>
+
+      <mat-progress-bar [value]="categories.value"></mat-progress-bar>
+    </li>
+  </mat-card>
   <!--下部ボタン-->
   <div class="button-container">
     <button mat-raised-button color="primary" (click)="closeLiff()">

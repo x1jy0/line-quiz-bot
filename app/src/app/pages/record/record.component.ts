@@ -12,8 +12,27 @@ export class RecordComponent implements OnInit {
   log = '';
   user: any;
   userIdIndex: any;
+  categoriesData: any;
 
   constructor() {
+    this.categoriesData = [
+      {
+        name: 'a',
+        value: 0,
+      },
+      {
+        name: 'b',
+        value: 25,
+      },
+      {
+        name: 'c',
+        value: 50,
+      },
+      {
+        name: 'd',
+        value: 75,
+      },
+    ];
     // lineLogin処理
     liff
       .init({
@@ -31,6 +50,7 @@ export class RecordComponent implements OnInit {
             .then((profile) => {
               this.user = profile;
               console.log('UserData:', this.user);
+              console.log('categories:', this.categoriesData);
             })
             .catch((err) => {
               console.log('error', err);

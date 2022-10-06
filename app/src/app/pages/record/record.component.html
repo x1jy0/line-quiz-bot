@@ -1,7 +1,10 @@
 <div class="container">
   <div class="title">解答率</div>
   <mat-card class="main-card">
-    <div>全体の解答率</div>
+    <p>全体の解答率</p>
+    <div class="total-value">
+      <p>{{ this.questionsValue }}%</p>
+    </div>
     <mat-progress-bar
       class="progress-bar-style"
       mode="determinate"

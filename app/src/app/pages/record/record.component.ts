@@ -13,6 +13,7 @@ export class RecordComponent implements OnInit {
   user: any;
   userIdIndex: any;
   categoriesData: any;
+  questionsValue = 0;
 
   constructor() {
     this.categoriesData = [

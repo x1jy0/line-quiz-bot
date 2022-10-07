@@ -5,12 +5,6 @@ import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
-export interface Item {
-  name: string;
-  completed: boolean;
-  items?: Item[];
-}
-
 @Component({
   selector: 'app-setting',
   templateUrl: './setting.component.html',
@@ -56,6 +50,7 @@ export class SettingComponent implements OnInit {
                 console.log('lineUser:', this.lineUser);
                 console.log('userData:', this.userData);
               });
+
               //カテゴリーの絞り込み(不要なので省略)
               const query = {};
               //カテゴリーを取得するService呼び出し
@@ -72,6 +67,7 @@ export class SettingComponent implements OnInit {
                     );
                   })
                 )
+
                 // カテゴリー表示とユーザーの選択を表示
                 .subscribe((categories) => {
                   console.log('カテゴリー一覧:', categories);
@@ -82,11 +78,7 @@ export class SettingComponent implements OnInit {
                       completed: false,
                     };
                   });
-                  console.log(
-                    '選択されているカテゴリー',
-                    this.userData.categories
-                  );
-                  console.log('表示用配列:', this.categoriesData);
+
                   // ユーザー選択を代入するループ
                   for (let i = 0; i < this.userData.categories.length; i++) {
                     // カテゴリー一覧からユーザーが選択してるカテゴリーのindexを取得

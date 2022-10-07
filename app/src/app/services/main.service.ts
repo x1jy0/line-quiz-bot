@@ -31,7 +31,7 @@ export class MainService {
     );
   }
 
-  saveCategories(body: any): Observable<any> {
-    return this.http.put<any>(`${environment.API_URL}/users?`, body);
+  saveCategories(id: number, body: any): Observable<any> {
+    return this.http.put<any>(`${environment.API_URL}/users/${id}`, body);
   }
 }

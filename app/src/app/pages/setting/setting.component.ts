@@ -5,12 +5,6 @@ import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
-export interface Item {
-  name: string;
-  completed: boolean;
-  items?: Item[];
-}
-
 @Component({
   selector: 'app-setting',
   templateUrl: './setting.component.html',
@@ -48,14 +42,15 @@ export class SettingComponent implements OnInit {
             //getProfileの戻り値
             .then((profile) => {
               this.lineUser = profile;
+              // ユーザーのDB上のidを取得
               const findUser = { lineUserId: this.lineUser.userId };
               this.mainSvc.findUser(findUser).subscribe((line_users) => {
                 this.userData = line_users[0];
                 this.userIdIndex = line_users[0].id;
                 console.log('lineUser:', this.lineUser);
                 console.log('userData:', this.userData);
-                console.log('userIdIndex:', this.userIdIndex);
               });
+
               //カテゴリーの絞り込み(不要なので省略)
               const query = {};
               //カテゴリーを取得するService呼び出し
@@ -72,18 +67,18 @@ export class SettingComponent implements OnInit {
                     );
                   })
                 )
+
                 // カテゴリー表示とユーザーの選択を表示
                 .subscribe((categories) => {
                   console.log('カテゴリー一覧:', categories);
-                  // 表示用配列にnameを代入するループ
-                  for (let i = 0; i < categories.length; i++) {
-                    this.categoriesData[i].name = categories[i].name;
-                  }
-                  console.log(
-                    '選択されているカテゴリー',
-                    this.userData.categories
-                  );
-                  console.log('表示用配列:', this.categoriesData);
+                  this.categoriesData = categories.map((category: any) => {
+                    return {
+                      name: category.name,
+                      id: category.id,
+                      completed: false,
+                    };
+                  });
+
                   // ユーザー選択を代入するループ
                   for (let i = 0; i < this.userData.categories.length; i++) {
                     // カテゴリー一覧からユーザーが選択してるカテゴリーのindexを取得
@@ -111,16 +106,20 @@ export class SettingComponent implements OnInit {
   ngOnInit(): void {}
 
   saveAndClose() {
-    console.log(this.categoriesData);
     //bodyの中にデータを入れてあげると保存できる
+    // ユーザー選択がtrueの物のidを数字配列にして指定
     const body = {
-      // id: 99,
-      // name: 'testText',
+      categories: this.categoriesData
+        .filter((category) => category.completed == true)
+        .map((category: any) => {
+          return category.id;
+        }),
     };
+    console.log('選択されたカテゴリーのid:', body);
     //保存処理
-    this.mainSvc.saveCategories(body).subscribe((res) => {
+    this.mainSvc.saveCategories(this.userIdIndex, body).subscribe((res) => {
       console.log('saveCategories:', res);
+      liff.closeWindow();
     });
-    // liff.closeWindow();
   }
 }

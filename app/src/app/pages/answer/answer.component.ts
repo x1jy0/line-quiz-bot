@@ -1,5 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import liff from '@line/liff';
 
 export interface multiChoiceList {
   name: string;
@@ -24,7 +26,7 @@ export class AnswerComponent implements OnInit {
   //並び替え問題の枠
   sorts = ['', '', '', ''];
 
-  constructor() {
+  constructor(private router: Router) {
     // 正誤の読み込み
     this.result = this.correctData.isCorrect;
   }
@@ -35,4 +37,12 @@ export class AnswerComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  closeLiff() {
+    liff.closeWindow();
+  }
+
+  nextQuestion() {
+    this.router.navigateByUrl('/question');
+  }
 }

@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import liff from '@line/liff';
+import { catchError, throwError } from 'rxjs';
+import { MainService } from 'src/app/services/main.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,28 +13,17 @@ import { environment } from 'src/environments/environment';
 })
 export class RecordComponent implements OnInit {
   log = '';
-  user: any;
+  lineUser: any;
   userIdIndex: any;
+  userData: any;
   categoriesData: any;
   questionsValue = 0;
 
-  constructor() {
+  constructor(private mainSvc: MainService) {
     this.categoriesData = [
       {
-        name: 'a',
+        name: '読み込み中',
         value: 0,
-      },
-      {
-        name: 'b',
-        value: 25,
-      },
-      {
-        name: 'c',
-        value: 50,
-      },
-      {
-        name: 'd',
-        value: 75,
       },
     ];
     // lineLogin処理
@@ -49,9 +41,46 @@ export class RecordComponent implements OnInit {
             .getProfile()
             //getProfileの戻り値
             .then((profile) => {
-              this.user = profile;
-              console.log('UserData:', this.user);
+              this.lineUser = profile;
               console.log('categories:', this.categoriesData);
+              // ユーザーのDB上のidを取得
+              const findUser = { lineUserId: this.lineUser.userId };
+              this.mainSvc.findUser(findUser).subscribe((line_users) => {
+                this.userData = line_users[0];
+                this.userIdIndex = line_users[0].id;
+                console.log('lineUser:', this.lineUser);
+                console.log('userData:', this.userData);
+                console.log('answerData:', this.userData.answers);
+              });
+
+              //カテゴリーの絞り込み(不要なので省略)
+              const query = {};
+              //カテゴリーを取得するService呼び出し
+              this.mainSvc
+                .getCategories(query)
+                .pipe(
+                  catchError((error: HttpErrorResponse) => {
+                    this.log = JSON.stringify(error);
+                    return throwError(
+                      () =>
+                        new Error(
+                          'Something bad happened; please try again later.'
+                        )
+                    );
+                  })
+                )
+
+                // カテゴリー表示
+                .subscribe((categories) => {
+                  console.log('カテゴリー一覧:', categories);
+                  this.categoriesData = categories.map((category: any) => {
+                    return {
+                      name: category.name,
+                      id: category.id,
+                      value: 50,
+                    };
+                  });
+                });
             })
             .catch((err) => {
               console.log('error', err);

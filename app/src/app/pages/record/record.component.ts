@@ -17,6 +17,7 @@ export class RecordComponent implements OnInit {
   userIdIndex: any;
   userData: any;
   categoriesData: any;
+  answerData: any;
   questionsValue = 0;
 
   constructor(private mainSvc: MainService) {
@@ -48,6 +49,7 @@ export class RecordComponent implements OnInit {
               this.mainSvc.findUser(findUser).subscribe((line_users) => {
                 this.userData = line_users[0];
                 this.userIdIndex = line_users[0].id;
+                // this.answerData = this.userData.answers;
                 console.log('lineUser:', this.lineUser);
                 console.log('userData:', this.userData);
                 console.log('answerData:', this.userData.answers);
@@ -72,8 +74,17 @@ export class RecordComponent implements OnInit {
 
                 // カテゴリー表示
                 .subscribe((categories) => {
+                  // answerDataの整形
+                  this.answerData = this.userData.answers.map((answer: any) => {
+                    return {
+                      answerId: answer.id,
+                    };
+                  });
+                  console.log('整形されたanswerData', this.answerData);
                   console.log('カテゴリー一覧:', categories);
                   this.categoriesData = categories.map((category: any) => {
+                    console.log('category:', category.id, category.name);
+                    console.log('category.question', category.questions);
                     return {
                       name: category.name,
                       id: category.id,

@@ -17,7 +17,9 @@ export class RecordComponent implements OnInit {
   userIdIndex: any;
   userData: any;
   categoriesData: any;
+  answers: any;
   answerData: any;
+  questionsCount = 0;
   questionsValue = 0;
 
   constructor(private mainSvc: MainService) {
@@ -55,11 +57,37 @@ export class RecordComponent implements OnInit {
                 console.log('answerData:', this.userData.answers);
               });
 
-              //カテゴリーの絞り込み(不要なので省略)
-              const query = {};
-              //カテゴリーを取得するService呼び出し
+              // answerの取得とユーザーの指定
+              const query = {
+                line_users: this.userIdIndex,
+              };
               this.mainSvc
-                .getCategories(query)
+                .getAnswer(query)
+                .pipe(
+                  catchError((error: HttpErrorResponse) => {
+                    this.log = JSON.stringify(error);
+                    return throwError(
+                      () =>
+                        new Error(
+                          'Something bad happened; please try again later.'
+                        )
+                    );
+                  })
+                )
+                .subscribe((answers) => {
+                  this.answers = answers;
+                  console.log('answerから取得したanswer:', answers);
+                });
+
+              //カテゴリーの問題数を取得するService呼び出し
+              this.mainSvc.getQuestionsCount(null).subscribe((count) => {
+                this.questionsCount = count;
+                this.questionsValue =
+                  (this.questionsCount / this.questionsCount) * 100;
+                console.log('全体の問題数:', count);
+              });
+              this.mainSvc
+                .getCategories(null)
                 .pipe(
                   catchError((error: HttpErrorResponse) => {
                     this.log = JSON.stringify(error);
@@ -74,13 +102,16 @@ export class RecordComponent implements OnInit {
 
                 // カテゴリー表示
                 .subscribe((categories) => {
-                  // answerDataの整形
-                  this.answerData = this.userData.answers.map((answer: any) => {
-                    return {
-                      answerId: answer.id,
-                    };
-                  });
-                  console.log('整形されたanswerData', this.answerData);
+                  // // answerDataの整形
+                  // this.answerData = this.userData.answers.map((answer: any) => {
+                  //   return {
+                  //     answerId: answer.id,
+                  //     // answer: this.answers,
+                  //   };
+                  // });
+                  // console.log('整形されたanswerData', this.answerData);
+
+                  // カテゴリーの一覧表示
                   console.log('カテゴリー一覧:', categories);
                   this.categoriesData = categories.map((category: any) => {
                     console.log('category:', category.id, category.name);
@@ -88,7 +119,7 @@ export class RecordComponent implements OnInit {
                     return {
                       name: category.name,
                       id: category.id,
-                      value: 50,
+                      value: (1 / category.questions.length) * 100,
                     };
                   });
                 });

@@ -16,7 +16,7 @@ export class RecordComponent implements OnInit {
   lineUser: any;
   userIdIndex: any;
   userData: any;
-  userAnswer: any;
+  userAnswerData: any;
   categoriesData: any;
   answers: any;
   answerData: any;
@@ -59,7 +59,16 @@ export class RecordComponent implements OnInit {
                 console.log('answerData:', this.userData.answers);
               });
 
-              // answerの取得とユーザーの指定
+              //全体の問題数を取得
+              this.mainSvc.getQuestions(null).subscribe((question) => {
+                this.questionsList = question;
+                this.questionsCount = question.length;
+
+                console.log('問題リスト:', this.questionsList);
+                console.log('全体の問題数:', this.questionsCount);
+              });
+
+              // ユーザーの回答を取得
               const query = {
                 line_users: this.userIdIndex,
               };
@@ -78,18 +87,36 @@ export class RecordComponent implements OnInit {
                 )
                 .subscribe((answers) => {
                   this.answers = answers;
-                  console.log('answerから取得したanswer:', answers);
+
+                  // 回答済みの問題のidにtrueを入れるための配列
+                  var answeredQuestion = Array(this.questionsCount);
+                  answeredQuestion.fill(false);
+
+                  // ユーザの回答した問題のquestion.id,answer.id,category.idをまとめて保存
+                  this.userAnswerData = this.answers.map((answer: any) => {
+                    // 回答済みの問題にtrue(これをmapでやってcat.idも持たせたら勝ちでは？)
+                    // 完成したuserAnsDからまたmapかfilterしてq.idの配列作ればcat.idも持たせやすくて完璧
+                    answeredQuestion[answer.questions[0].id] = true;
+                    var qIndex = this.questionsList.findIndex(
+                      ({ id }: any) => id === answer.questions[0].id
+                    );
+                    return {
+                      answerId: answer.id,
+                      questionId: answer.questions[0].id,
+                      categoryId: this.questionsList[qIndex].categories[0].id,
+                    };
+                  });
+
+                  // 全体の回答数を出すフィルター
+                  var answeredQuestionCount = answeredQuestion.filter(
+                    (question) => question === true
+                  );
+                  console.log('回答問題数:', answeredQuestionCount);
+                  console.log('回答済みのデータ:', this.userAnswerData);
+                  this.questionsValue =
+                    (answeredQuestionCount.length / this.questionsCount) * 100;
                 });
 
-              //カテゴリーの問題数を取得するService呼び出し
-              this.mainSvc.getQuestions(null).subscribe((question) => {
-                this.questionsList = question;
-                this.questionsCount = question.length;
-                this.questionsValue =
-                  (this.questionsCount / this.questionsCount) * 100;
-                console.log('問題リスト:', this.questionsList);
-                console.log('全体の問題数:', this.questionsCount);
-              });
               this.mainSvc
                 .getCategories(null)
                 .pipe(
@@ -107,14 +134,6 @@ export class RecordComponent implements OnInit {
                 // カテゴリー表示
                 .subscribe((categories) => {
                   console.log('カテゴリー一覧:', categories);
-
-                  // ユーザーが答えたq.idと本家のq.idを紐つけて配列化する
-                  // 重複を排除したい
-                  // 重複を排除するなら保存する添字をそのままq.idにするのはどうか
-
-                  this.userAnswer = this.userData.answers.map((answer: any) => {
-                    console.log('回答済みのa.id', answer.id);
-                  });
 
                   // カテゴリーごとのmapループ
                   this.categoriesData = categories.map((category: any) => {

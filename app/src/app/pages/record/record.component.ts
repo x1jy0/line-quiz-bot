@@ -102,20 +102,12 @@ export class RecordComponent implements OnInit {
 
                 // カテゴリー表示
                 .subscribe((categories) => {
-                  // // answerDataの整形
-                  // this.answerData = this.userData.answers.map((answer: any) => {
-                  //   return {
-                  //     answerId: answer.id,
-                  //     // answer: this.answers,
-                  //   };
-                  // });
-                  // console.log('整形されたanswerData', this.answerData);
-
-                  // カテゴリーの一覧表示
                   console.log('カテゴリー一覧:', categories);
                   this.categoriesData = categories.map((category: any) => {
+                    // カテゴリーごとのmapループ
                     console.log('category:', category.id, category.name);
                     console.log('category.question', category.questions);
+
                     return {
                       name: category.name,
                       id: category.id,

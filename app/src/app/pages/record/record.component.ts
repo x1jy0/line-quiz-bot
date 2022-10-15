@@ -16,9 +16,11 @@ export class RecordComponent implements OnInit {
   lineUser: any;
   userIdIndex: any;
   userData: any;
+  userAnswer: any;
   categoriesData: any;
   answers: any;
   answerData: any;
+  questionsList: any;
   questionsCount = 0;
   questionsValue = 0;
 
@@ -80,11 +82,13 @@ export class RecordComponent implements OnInit {
                 });
 
               //カテゴリーの問題数を取得するService呼び出し
-              this.mainSvc.getQuestionsCount(null).subscribe((count) => {
-                this.questionsCount = count;
+              this.mainSvc.getQuestions(null).subscribe((question) => {
+                this.questionsList = question;
+                this.questionsCount = question.length;
                 this.questionsValue =
                   (this.questionsCount / this.questionsCount) * 100;
-                console.log('全体の問題数:', count);
+                console.log('問題リスト:', this.questionsList);
+                console.log('全体の問題数:', this.questionsCount);
               });
               this.mainSvc
                 .getCategories(null)
@@ -103,8 +107,17 @@ export class RecordComponent implements OnInit {
                 // カテゴリー表示
                 .subscribe((categories) => {
                   console.log('カテゴリー一覧:', categories);
+
+                  // ユーザーが答えたq.idと本家のq.idを紐つけて配列化する
+                  // 重複を排除したい
+                  // 重複を排除するなら保存する添字をそのままq.idにするのはどうか
+
+                  this.userAnswer = this.userData.answers.map((answer: any) => {
+                    console.log('回答済みのa.id', answer.id);
+                  });
+
+                  // カテゴリーごとのmapループ
                   this.categoriesData = categories.map((category: any) => {
-                    // カテゴリーごとのmapループ
                     console.log('category:', category.id, category.name);
                     console.log('category.question', category.questions);
 

@@ -19,7 +19,6 @@ export class RecordComponent implements OnInit {
   userData: any;
   userAnswerData: any;
   categoriesData: any;
-  answers: any;
   answerData: any;
   questionsList: any;
   excludingDuplicatesQuestions: any;
@@ -50,12 +49,12 @@ export class RecordComponent implements OnInit {
             .then((profile) => {
               this.lineUser = profile;
               console.log('categories:', this.categoriesData);
+
               // ユーザーのDB上のidを取得
               const findUser = { lineUserId: this.lineUser.userId };
               this.mainSvc.findUser(findUser).subscribe((line_users) => {
                 this.userData = line_users[0];
                 this.userIdIndex = line_users[0].id;
-                // this.answerData = this.userData.answers;
                 console.log('lineUser:', this.lineUser);
                 console.log('userData:', this.userData);
                 console.log('answerData:', this.userData.answers);
@@ -65,9 +64,7 @@ export class RecordComponent implements OnInit {
               this.mainSvc.getQuestions(null).subscribe((question) => {
                 this.questionsList = question;
                 this.questionsCount = question.length;
-
                 console.log('問題リスト:', this.questionsList);
-                console.log('全体の問題数:', this.questionsCount);
               });
 
               // ユーザーの回答を取得
@@ -79,6 +76,7 @@ export class RecordComponent implements OnInit {
                 .pipe(
                   catchError((error: HttpErrorResponse) => {
                     this.log = JSON.stringify(error);
+                    delay(3000);
                     return throwError(
                       () =>
                         new Error(
@@ -88,14 +86,8 @@ export class RecordComponent implements OnInit {
                   })
                 )
                 .subscribe((answers) => {
-                  this.answers = answers;
-
                   // ユーザの回答した問題のquestion.id,answer.id,category.idをまとめて保存
-                  this.userAnswerData = this.answers.map((answer: any) => {
-                    // 回答済みの問題にtrue(これをmapでやってcat.idも持たせたら勝ちでは？)
-                    // 完成したuserAnsDからまたmapかfilterしてq.idの配列作ればcat.idも持たせやすくて完璧
-                    // 上のは一旦置いといて、二次元配列の重複排除とカテゴリループでidフィルターすれば終わりやない？
-                    // q.idで重複削除、カテゴリーで絞り込みで正しい数が出てくる
+                  this.userAnswerData = answers.map((answer: any) => {
                     var qIndex = this.questionsList.findIndex(
                       ({ id }: any) => id === answer.questions[0].id
                     );
@@ -116,19 +108,19 @@ export class RecordComponent implements OnInit {
                     );
 
                   // 結果を出力
-                  console.log(this.excludingDuplicatesQuestions);
-
                   console.log(
-                    '回答問題数:',
-                    this.excludingDuplicatesQuestions.length
+                    '重複を排除した回答済み問題:',
+                    this.excludingDuplicatesQuestions
                   );
-                  console.log('回答済みのデータ:', this.userAnswerData);
+
+                  // 全体の解答率を計算
                   this.questionsValue =
                     (this.excludingDuplicatesQuestions.length /
                       this.questionsCount) *
                     100;
                 });
 
+              // カテゴリを取得
               this.mainSvc
                 .getCategories(null)
                 .pipe(
@@ -147,17 +139,12 @@ export class RecordComponent implements OnInit {
                 // カテゴリー表示
                 .subscribe((categories) => {
                   console.log('カテゴリー一覧:', categories);
-
                   // カテゴリーごとのmapループ
                   this.categoriesData = categories.map((category: any) => {
-                    console.log('category:', category.id, category.name);
-                    console.log('category.question', category.questions);
-                    console.log(this.excludingDuplicatesQuestions);
+                    // カテゴリごとの回答数を集計
                     const filter = this.excludingDuplicatesQuestions.filter(
                       ({ categoryId }: any) => categoryId === category.id
                     );
-                    console.log('filter:', filter);
-
                     return {
                       name: category.name,
                       id: category.id,

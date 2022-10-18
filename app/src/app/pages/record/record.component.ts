@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import liff from '@line/liff';
 import { catchError, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { MainService } from 'src/app/services/main.service';
 import { environment } from 'src/environments/environment';
 
@@ -21,6 +22,7 @@ export class RecordComponent implements OnInit {
   answers: any;
   answerData: any;
   questionsList: any;
+  excludingDuplicatesQuestions: any;
   questionsCount = 0;
   questionsValue = 0;
 
@@ -88,15 +90,12 @@ export class RecordComponent implements OnInit {
                 .subscribe((answers) => {
                   this.answers = answers;
 
-                  // 回答済みの問題のidにtrueを入れるための配列
-                  var answeredQuestion = Array(this.questionsCount);
-                  answeredQuestion.fill(false);
-
                   // ユーザの回答した問題のquestion.id,answer.id,category.idをまとめて保存
                   this.userAnswerData = this.answers.map((answer: any) => {
                     // 回答済みの問題にtrue(これをmapでやってcat.idも持たせたら勝ちでは？)
                     // 完成したuserAnsDからまたmapかfilterしてq.idの配列作ればcat.idも持たせやすくて完璧
-                    answeredQuestion[answer.questions[0].id] = true;
+                    // 上のは一旦置いといて、二次元配列の重複排除とカテゴリループでidフィルターすれば終わりやない？
+                    // q.idで重複削除、カテゴリーで絞り込みで正しい数が出てくる
                     var qIndex = this.questionsList.findIndex(
                       ({ id }: any) => id === answer.questions[0].id
                     );
@@ -107,14 +106,27 @@ export class RecordComponent implements OnInit {
                     };
                   });
 
-                  // 全体の回答数を出すフィルター
-                  var answeredQuestionCount = answeredQuestion.filter(
-                    (question) => question === true
+                  // 重複を取り除く処理(変数名が長い)
+                  this.excludingDuplicatesQuestions =
+                    this.userAnswerData.filter(
+                      (element: any, index: any, self: any) =>
+                        self.findIndex(
+                          (e: any) => e.questionId === element.questionId
+                        ) === index
+                    );
+
+                  // 結果を出力
+                  console.log(this.excludingDuplicatesQuestions);
+
+                  console.log(
+                    '回答問題数:',
+                    this.excludingDuplicatesQuestions.length
                   );
-                  console.log('回答問題数:', answeredQuestionCount);
                   console.log('回答済みのデータ:', this.userAnswerData);
                   this.questionsValue =
-                    (answeredQuestionCount.length / this.questionsCount) * 100;
+                    (this.excludingDuplicatesQuestions.length /
+                      this.questionsCount) *
+                    100;
                 });
 
               this.mainSvc
@@ -128,7 +140,8 @@ export class RecordComponent implements OnInit {
                           'Something bad happened; please try again later.'
                         )
                     );
-                  })
+                  }),
+                  delay(3000)
                 )
 
                 // カテゴリー表示
@@ -139,11 +152,16 @@ export class RecordComponent implements OnInit {
                   this.categoriesData = categories.map((category: any) => {
                     console.log('category:', category.id, category.name);
                     console.log('category.question', category.questions);
+                    console.log(this.excludingDuplicatesQuestions);
+                    const filter = this.excludingDuplicatesQuestions.filter(
+                      ({ categoryId }: any) => categoryId === category.id
+                    );
+                    console.log('filter:', filter);
 
                     return {
                       name: category.name,
                       id: category.id,
-                      value: (1 / category.questions.length) * 100,
+                      value: (filter.length / category.questions.length) * 100,
                     };
                   });
                 });

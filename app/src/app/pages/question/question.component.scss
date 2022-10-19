@@ -16,6 +16,22 @@
   display: flex;
   align-items: center;
   margin-top: 50px;
+  word-break: break-all;
+}
+
+// card共通設定
+.mat-card-parent {
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+.mat-card {
+  width: 75%;
+}
+// cardの中のpaddingを0に
+.mat-card > :last-child:not(.mat-card-footer),
+.mat-card-content > :last-child:not(.mat-card-footer) {
+  padding: 0;
 }
 
 //単一選択の設定
@@ -27,6 +43,7 @@
 }
 .mat-radio-group .mat-radio-button .mat-radio-label {
   white-space: normal;
+  padding: 0%;
 }
 
 .radio-button {
@@ -51,8 +68,7 @@
 
 //並び替えのCSS
 .sort-list {
-  width: 250px;
-  max-width: 70%;
+  width: 83%;
   border: solid 1px #ccc;
   min-height: 60px;
   display: block;

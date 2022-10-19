@@ -1,16 +1,18 @@
 <div class="container">
   <div class="setting">設定</div>
-  <div class="detail">出題して欲しい範囲に<br />チェックを入れてください</div>
+  <mat-card class="main-card">
+    <div class="detail">出題して欲しい範囲に<br />チェックを入れてください</div>
 
-  <span class="multi-choice">
-    <ul>
-      <li *ngFor="let categories of categoriesData">
-        <mat-checkbox [(ngModel)]="categories.completed">
-          {{ categories.name }}
-        </mat-checkbox>
-      </li>
-    </ul>
-  </span>
+    <span class="multi-choice">
+      <ul>
+        <li *ngFor="let categories of categoriesData">
+          <mat-checkbox [(ngModel)]="categories.completed">
+            {{ categories.name }}
+          </mat-checkbox>
+        </li>
+      </ul>
+    </span>
+  </mat-card>
 
   <!--下部ボタン-->
   <div class="button-container">

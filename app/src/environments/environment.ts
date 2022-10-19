@@ -8,6 +8,7 @@ export const environment = {
   SETTING_LIFF_ID: '1657253685-k99njPyv',
   RECORD_LIFF_ID: '1657253685-xQA1QgZj',
   API_URL: 'http://localhost:1337',
+  // API_URL: 'https://8614-240f-56-d63c-1-a054-b043-d2fe-9b32.jp.ngrok.io',
 };
 
 /*

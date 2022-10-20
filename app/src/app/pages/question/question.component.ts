@@ -20,6 +20,7 @@ export class QuestionComponent implements OnInit {
   selectionForm: any;
   user: any;
   userIdIndex: any;
+  userData: any;
   isCorrect = false;
   sortCorrect: boolean[] = [];
   answerData = [
@@ -69,7 +70,55 @@ export class QuestionComponent implements OnInit {
             //getProfileの戻り値
             .then((profile) => {
               this.user = profile;
-              console.log('UserData:', this.user);
+              console.log('lineUser:', this.user);
+              // ユーザーのDB情報を取得
+              const findUser = { lineUserId: this.user.userId };
+              this.mainSvc.findUser(findUser).subscribe((line_users) => {
+                this.userData = line_users[0];
+                console.log('userData:', this.userData);
+
+                //カテゴリーの絞り込み
+                // userDataのCategoryを数配列に変換してカテゴリ絞り込み
+                // 簡略化可能、要リファクタ
+                let categoryArr = Array(this.userData.categories.length);
+                for (let i = 0; i < this.userData.categories.length; i++) {
+                  categoryArr[i] = this.userData.categories[i].id;
+                }
+                var query = {
+                  categories: categoryArr,
+                };
+                console.log(query);
+                //問題を取得するService呼び出し
+                this.mainSvc
+                  .getQuestions(query)
+                  .pipe(
+                    catchError((error: HttpErrorResponse) => {
+                      this.log = JSON.stringify(error);
+                      return throwError(
+                        () =>
+                          new Error(
+                            'Something bad happened; please try again later.'
+                          )
+                      );
+                    })
+                  )
+                  .subscribe((questions) => {
+                    const questionLength = questions.length;
+                    const index: number = this.getRandomInt(0, questionLength);
+                    console.log('取得した問題:', questions[index]);
+                    this.log = JSON.stringify(questions);
+                    // 取得した問題をquestionに代入
+                    this.question = questions[index];
+                    // 複数選択の時
+                    if (questions[index].Format == 'multi') {
+                      this.selectionForm = this.fb.group({
+                        selections: this.fb.array(
+                          questions[index].selection.map((v: any) => false)
+                        ),
+                      });
+                    }
+                  });
+              });
             })
             .catch((err) => {
               console.log('error', err);
@@ -85,39 +134,7 @@ export class QuestionComponent implements OnInit {
     this.selectedChoice = -1;
   }
 
-  ngOnInit(): void {
-    //カテゴリーの絞り込み
-    const query = {
-      // categories: 1,
-    };
-    //問題を取得するService呼び出し
-    this.mainSvc
-      .getQuestions(query)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.log = JSON.stringify(error);
-          return throwError(
-            () => new Error('Something bad happened; please try again later.')
-          );
-        })
-      )
-      .subscribe((questions) => {
-        const questionLength = questions.length;
-        const index: number = this.getRandomInt(0, questionLength);
-        console.log('取得した問題:', questions[index]);
-        this.log = JSON.stringify(questions);
-        // 取得した問題をquestionに代入
-        this.question = questions[index];
-        // 複数選択の時
-        if (questions[index].Format == 'multi') {
-          this.selectionForm = this.fb.group({
-            selections: this.fb.array(
-              questions[index].selection.map((v: any) => false)
-            ),
-          });
-        }
-      });
-  }
+  ngOnInit(): void {}
 
   //並び替え問題
   drop(event: CdkDragDrop<string[]>) {
@@ -193,6 +210,7 @@ export class QuestionComponent implements OnInit {
     }
 
     //UserIdのindex取得
+    // ユーザーデータの取得方法が変わって不要なので要リファクタ
     const findUser = { lineUserId: this.user.userId };
     this.mainSvc.findUser(findUser).subscribe((line_users) => {
       this.userIdIndex = line_users[0].id;

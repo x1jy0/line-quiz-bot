@@ -17,28 +17,36 @@
 
   <!--単一選択-->
   <ng-template #single>
-    <div class="question">{{ question.question }}</div>
-    <div>
-      <mat-radio-group
-        aria-labelledby="radio-button-label"
-        class="selection-group"
-        [(ngModel)]="selectedChoice"
-      >
-        <mat-radio-button
-          class="radio-button"
-          *ngFor="let singleChoice of question.selection; index as i"
-          [value]="i"
+    <div class="mat-card-parent">
+      <mat-card class="mat-card">
+        <div class="question">{{ question.question }}</div>
+      </mat-card>
+    </div>
+    <div class="mat-card-parent">
+      <mat-card class="mat-card">
+        <mat-radio-group
+          aria-labelledby="radio-button-label"
+          class="selection-group"
+          [(ngModel)]="selectedChoice"
         >
-          {{ singleChoice.Statement }}
-        </mat-radio-button>
-      </mat-radio-group>
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let singleChoice of question.selection; index as i"
+            [value]="i"
+          >
+            {{ singleChoice.Statement }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
     </div>
   </ng-template>
 
   <!--複数選択-->
   <ng-template #multi>
-    <div class="question">
-      {{ question.question }}
+    <div class="mat-card-parent">
+      <mat-card class="mat-card">
+        <div class="question">{{ question.question }}</div>
+      </mat-card>
     </div>
     <div class="multi-choice" [formGroup]="selectionForm">
       <ul formArrayName="selections">
@@ -53,7 +61,11 @@
 
   <!--並び替え-->
   <ng-template #sort>
-    <div class="question">{{ question.question }}</div>
+    <div class="mat-card-parent">
+      <mat-card class="mat-card">
+        <div class="question">{{ question.question }}</div>
+      </mat-card>
+    </div>
     <div class="sort-choice">
       <div cdkDropList class="sort-list" (cdkDropListDropped)="drop($event)">
         <div class="sort-box" *ngFor="let sort of question.selection" cdkDrag>

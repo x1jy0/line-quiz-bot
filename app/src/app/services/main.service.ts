@@ -19,6 +19,11 @@ export class MainService {
     return this.http.post<any>(`${environment.API_URL}/answers?`, body);
   }
 
+  getAnswer(query: any): Observable<any> {
+    const httpParams = qs.stringify(query);
+    return this.http.get<any>(`${environment.API_URL}/answers?${httpParams}`);
+  }
+
   findUser(query: any): Observable<any> {
     const httpParams = qs.stringify(query);
     return this.http.get<any>(`${environment.API_URL}/users?${httpParams}`);

@@ -48,14 +48,18 @@
         <div class="question">{{ question.question }}</div>
       </mat-card>
     </div>
-    <div class="multi-choice" [formGroup]="selectionForm">
-      <ul formArrayName="selections">
-        <li *ngFor="let multiChoice of question.selection; index as i">
-          <mat-checkbox [formControlName]="i">
-            {{ multiChoice.Statement }}
-          </mat-checkbox>
-        </li>
-      </ul>
+    <div class="mat-card-parent">
+      <mat-card class="mat-card">
+        <div class="multi-choice" [formGroup]="selectionForm">
+          <ul formArrayName="selections">
+            <li *ngFor="let multiChoice of question.selection; index as i">
+              <mat-checkbox [formControlName]="i">
+                {{ multiChoice.Statement }}
+              </mat-checkbox>
+            </li>
+          </ul>
+        </div>
+      </mat-card>
     </div>
   </ng-template>
 

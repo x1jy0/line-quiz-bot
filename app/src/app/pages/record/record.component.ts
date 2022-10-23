@@ -114,12 +114,11 @@ export class RecordComponent implements OnInit {
                   );
 
                   // 全体の解答率を計算
-                  this.questionsValue =
-                    Math.round(
-                      (this.excludingDuplicatesQuestions.length /
-                        this.questionsCount) *
-                        100
-                    ) / 1;
+                  this.questionsValue = Math.floor(
+                    (this.excludingDuplicatesQuestions.length /
+                      this.questionsCount) *
+                      100
+                  );
                 });
 
               // カテゴリを取得
@@ -150,10 +149,9 @@ export class RecordComponent implements OnInit {
                     return {
                       name: category.name,
                       id: category.id,
-                      value:
-                        Math.round(
-                          (filter.length / category.questions.length) * 100
-                        ) / 1,
+                      value: Math.floor(
+                        (filter.length / category.questions.length) * 100
+                      ),
                     };
                   });
                 });
